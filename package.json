@@ -14,7 +14,7 @@
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix --cache",
     "format": "prettier --write --experimental-cli src/",
-    "build:css": "mkdir -p dist && cat src/styles/variables.css src/styles/typography.css src/styles/buttons.css src/styles/checkboxes.css src/styles/radios.css src/styles/switches.css > dist/styles.css"
+    "build:css": "vite build --config scripts/build-css.ts"
   },
   "dependencies": {
     "prism-themes": "^1.9.0",
