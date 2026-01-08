@@ -1,0 +1,351 @@
+/* ============================================
+   BASE BUTTON
+   ============================================ */
+.c-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  border-radius: var(--radius-full);
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.15s, background-color 0.15s;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.c-btn:focus-visible {
+  outline: 2px solid var(--color-brand-700);
+  outline-offset: 2px;
+}
+
+.c-btn:disabled {
+  cursor: not-allowed;
+}
+
+/* ============================================
+   SIZES
+   ============================================ */
+.c-btn-sm {
+  height: 2.25rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: -0.014em;
+}
+
+.c-btn-md {
+  height: 2.5rem;
+  padding: 0.5rem 1.5rem;
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: -0.016em;
+}
+
+.c-btn-lg {
+  height: 3rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: -0.016em;
+}
+
+/* ============================================
+   ICON-ONLY
+   ============================================ */
+.c-btn-icon {
+  padding: 0;
+}
+
+.c-btn-icon.c-btn-sm {
+  width: 2.25rem;
+}
+
+.c-btn-icon.c-btn-md {
+  width: 2.5rem;
+}
+
+.c-btn-icon.c-btn-lg {
+  width: 3rem;
+}
+
+/* ============================================
+   ICON PADDING MODIFIERS
+   ============================================ */
+
+/* Icon at start (before text) */
+.c-btn-icon-start.c-btn-sm {
+  padding-left: 0.625rem;
+  padding-right: 1.125rem;
+}
+
+.c-btn-icon-start.c-btn-md,
+.c-btn-icon-start.c-btn-lg {
+  padding-left: 1rem;
+  padding-right: 1.375rem;
+}
+
+/* Icon at end (after text) */
+.c-btn-icon-end.c-btn-sm {
+  padding-left: 1.125rem;
+  padding-right: 0.625rem;
+}
+
+.c-btn-icon-end.c-btn-md,
+.c-btn-icon-end.c-btn-lg {
+  padding-left: 1.375rem;
+  padding-right: 1rem;
+}
+
+/* Icons on both sides */
+.c-btn-icon-both.c-btn-sm {
+  padding-left: 0.625rem;
+  padding-right: 0.625rem;
+}
+
+.c-btn-icon-both.c-btn-md,
+.c-btn-icon-both.c-btn-lg {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* ============================================
+   PRIMARY - Solid
+   ============================================ */
+.c-btn-primary {
+  background-color: var(--color-brand-700);
+  color: var(--color-white);
+}
+
+.c-btn-primary:hover {
+  background-color: var(--color-brand-800);
+}
+
+.c-btn-primary:active {
+  background-color: rgba(0, 90, 190, 0.75);
+}
+
+.c-btn-primary:disabled {
+  background-color: var(--color-gray-200);
+  color: var(--color-gray-400);
+}
+
+/* PRIMARY - Outline */
+.c-btn-primary-outline {
+  background-color: var(--color-white);
+  color: var(--color-brand-700);
+  box-shadow: inset 0 0 0 1px var(--color-brand-700);
+}
+
+.c-btn-primary-outline:hover {
+  background-color: var(--color-brand-25);
+}
+
+.c-btn-primary-outline:active {
+  background-color: var(--color-brand-50);
+}
+
+.c-btn-primary-outline:disabled {
+  color: var(--color-gray-400);
+  box-shadow: inset 0 0 0 1px var(--color-gray-200);
+  background-color: transparent;
+}
+
+/* PRIMARY - Ghost */
+.c-btn-primary-ghost {
+  background-color: transparent;
+  color: var(--color-brand-700);
+}
+
+.c-btn-primary-ghost:hover {
+  background-color: var(--color-brand-25);
+}
+
+.c-btn-primary-ghost:active {
+  background-color: rgba(230, 239, 249, 0.5);
+}
+
+.c-btn-primary-ghost:disabled {
+  background-color: transparent;
+  color: var(--color-gray-400);
+}
+
+/* ============================================
+   SECONDARY - Solid
+   ============================================ */
+.c-btn-secondary {
+  background-color: var(--color-gray-700);
+  color: var(--color-white);
+}
+
+.c-btn-secondary:hover {
+  background-color: var(--color-gray-800);
+}
+
+.c-btn-secondary:active {
+  background-color: rgba(61, 72, 85, 0.75);
+}
+
+.c-btn-secondary:disabled {
+  background-color: var(--color-gray-200);
+  color: var(--color-gray-400);
+}
+
+/* SECONDARY - Outline */
+.c-btn-secondary-outline {
+  background-color: var(--color-white);
+  color: var(--color-gray-800);
+  box-shadow: inset 0 0 0 1px var(--color-gray-300);
+}
+
+.c-btn-secondary-outline:hover {
+  background-color: var(--color-gray-50);
+}
+
+.c-btn-secondary-outline:active {
+  background-color: var(--color-gray-100);
+}
+
+.c-btn-secondary-outline:disabled {
+  color: var(--color-gray-400);
+  box-shadow: inset 0 0 0 1px var(--color-gray-200);
+  background-color: transparent;
+}
+
+/* SECONDARY - Ghost */
+.c-btn-secondary-ghost {
+  background-color: transparent;
+  color: var(--color-gray-800);
+}
+
+.c-btn-secondary-ghost:hover {
+  background-color: var(--color-gray-50);
+}
+
+.c-btn-secondary-ghost:disabled {
+  color: var(--color-gray-400);
+  background-color: transparent;
+}
+
+/* ============================================
+   TERTIARY - Solid
+   ============================================ */
+.c-btn-tertiary {
+  background-color: var(--color-white);
+  color: var(--color-gray-900);
+}
+
+.c-btn-tertiary:hover {
+  background-color: var(--color-gray-blue-25);
+}
+
+/* TERTIARY - Outline */
+.c-btn-tertiary-outline {
+  background-color: var(--color-white);
+  color: var(--color-gray-900);
+  box-shadow: inset 0 0 0 1px var(--color-gray-300);
+}
+
+.c-btn-tertiary-outline:hover {
+  box-shadow: inset 0 0 0 1px var(--color-gray-400);
+}
+
+.c-btn-tertiary-outline:active {
+  background-color: var(--color-gray-50);
+}
+
+/* TERTIARY - Ghost */
+.c-btn-tertiary-ghost {
+  background-color: transparent;
+  color: var(--color-gray-900);
+}
+
+.c-btn-tertiary-ghost:hover {
+  background-color: var(--color-gray-50);
+}
+
+.c-btn-tertiary-ghost:disabled {
+  background-color: transparent;
+  color: var(--color-gray-400);
+}
+
+/* ============================================
+   ERROR - Solid
+   ============================================ */
+.c-btn-error {
+  background-color: var(--color-error-600);
+  color: var(--color-white);
+}
+
+.c-btn-error:hover {
+  background-color: var(--color-error-700);
+}
+
+.c-btn-error:active {
+  background-color: rgba(217, 45, 32, 0.75);
+}
+
+.c-btn-error:disabled {
+  background-color: var(--color-gray-200);
+  color: var(--color-gray-400);
+}
+
+.c-btn-error:focus-visible {
+  outline-color: var(--color-error-600);
+}
+
+/* ERROR - Outline */
+.c-btn-error-outline {
+  background-color: transparent;
+  color: var(--color-error-600);
+  box-shadow: inset 0 0 0 1px var(--color-error-600);
+}
+
+.c-btn-error-outline:hover {
+  background-color: var(--color-error-50);
+}
+
+.c-btn-error-outline:active {
+  background-color: var(--color-error-100);
+}
+
+.c-btn-error-outline:disabled {
+  color: var(--color-gray-400);
+  box-shadow: inset 0 0 0 1px var(--color-gray-200);
+  background-color: transparent;
+}
+
+.c-btn-error-outline:focus-visible {
+  outline-color: var(--color-error-600);
+}
+
+/* ERROR - Ghost */
+.c-btn-error-ghost {
+  background-color: transparent;
+  color: var(--color-error-600);
+}
+
+.c-btn-error-ghost:hover {
+  background-color: var(--color-error-50);
+}
+
+.c-btn-error-ghost:active {
+  background-color: rgba(254, 243, 242, 0.5);
+}
+
+.c-btn-error-ghost:disabled {
+  background-color: transparent;
+  color: var(--color-gray-400);
+}
+
+.c-btn-error-ghost:focus-visible {
+  outline-color: var(--color-error-600);
+}
+
+/* ============================================
+   BLOCK (full width)
+   ============================================ */
+.c-btn-block {
+  width: 100%;
+}

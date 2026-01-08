@@ -1,0 +1,93 @@
+/* Display sizes */
+.t-2xl {
+  font-size: 4.5rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.t-xl {
+  font-size: 3.75rem;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.t-lg {
+  font-size: 3rem;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+}
+
+.t-md {
+  font-size: 2.25rem;
+  line-height: 1.22;
+  letter-spacing: -0.02em;
+}
+
+/* Heading sizes */
+.t-h1 {
+  font-size: 1.75rem;
+  line-height: 1.36;
+  letter-spacing: -0.01em;
+}
+
+.t-h2 {
+  font-size: 1.375rem;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+}
+
+.t-h3 {
+  font-size: 1.25rem;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+/* Body sizes */
+.t-body-l {
+  font-size: 1.125rem;
+  line-height: 1.56;
+  letter-spacing: -0.01em;
+}
+
+.t-body-m {
+  font-size: 1rem;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+.t-body-s {
+  font-size: 0.875rem;
+  line-height: 1.43;
+  letter-spacing: -0.01em;
+}
+
+/* Small sizes */
+.t-caption {
+  font-size: 0.75rem;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+.t-label {
+  font-size: 0.625rem;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+/* Font weight helpers */
+.t-font-regular {
+  font-weight: 400;
+}
+
+.t-font-medium {
+  font-weight: 500;
+}
+
+.t-font-semibold {
+  font-weight: 600;
+}
+
+.t-font-bold {
+  font-weight: 700;
+}

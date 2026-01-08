@@ -1,0 +1,164 @@
+/* ============================================
+   SWITCH - BASE
+   ============================================ */
+.c-switch {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  width: 36px;
+  height: 20px;
+  background-color: var(--color-gray-blue-50);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background-color 0.15s, box-shadow 0.15s;
+  flex-shrink: 0;
+  position: relative;
+}
+
+/* Thumb (knob) */
+.c-switch::before {
+  content: '';
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-color: var(--color-white);
+  border-radius: var(--radius-full);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.15s, background-color 0.15s;
+}
+
+/* ============================================
+   SIZES
+   ============================================ */
+.c-switch-sm {
+  width: 36px;
+  height: 20px;
+}
+
+.c-switch-sm::before {
+  width: 16px;
+  height: 16px;
+}
+
+.c-switch-lg {
+  width: 44px;
+  height: 24px;
+}
+
+.c-switch-lg::before {
+  width: 20px;
+  height: 20px;
+}
+
+/* ============================================
+   STATES - DEFAULT
+   ============================================ */
+
+/* Hover */
+.c-switch:hover {
+  background-color: var(--color-gray-blue-100);
+}
+
+/* Checked (ON) */
+.c-switch:checked {
+  background-color: var(--color-brand-700);
+}
+
+.c-switch:checked::before {
+  transform: translateX(16px);
+}
+
+.c-switch-lg:checked::before {
+  transform: translateX(20px);
+}
+
+.c-switch:checked:hover {
+  background-color: var(--color-brand-800);
+}
+
+/* Focus */
+.c-switch:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus-blue), 0 0 0 2px var(--color-white);
+}
+
+.c-switch:checked:focus-visible {
+  box-shadow: var(--shadow-focus-blue), 0 0 0 2px var(--color-white);
+}
+
+/* Disabled */
+.c-switch:disabled {
+  cursor: not-allowed;
+  background-color: var(--color-gray-blue-25);
+}
+
+.c-switch:disabled::before {
+  background-color: var(--color-gray-25);
+}
+
+.c-switch:checked:disabled {
+  background-color: var(--color-gray-blue-100);
+}
+
+.c-switch:checked:disabled::before {
+  background-color: var(--color-gray-25);
+}
+
+/* ============================================
+   SWITCH FIELD (wrapper with text)
+   ============================================ */
+.c-switch-field {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.c-switch-field .c-switch {
+  margin-top: 0;
+}
+
+.c-switch-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.c-switch-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.43;
+  letter-spacing: -0.01em;
+  color: var(--color-gray-900);
+  cursor: pointer;
+}
+
+.c-switch-description {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: -0.01em;
+  color: var(--color-gray-600);
+}
+
+/* Disabled field styling */
+.c-switch-field:has(.c-switch:disabled) {
+  cursor: not-allowed;
+}
+
+.c-switch-field:has(.c-switch:disabled) .c-switch-label,
+.c-switch-field:has(.c-switch:disabled) .c-switch-description {
+  color: var(--color-gray-400);
+}
+
+/* ============================================
+   SWITCH GROUP
+   ============================================ */
+.c-switch-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}

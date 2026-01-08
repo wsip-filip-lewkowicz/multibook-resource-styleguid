@@ -1,0 +1,181 @@
+/* ============================================
+   CHECKBOX - BASE
+   ============================================ */
+.c-checkbox {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-500);
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s, box-shadow 0.15s;
+  flex-shrink: 0;
+}
+
+/* Checkmark icon */
+.c-checkbox::before {
+  content: '';
+  display: block;
+  opacity: 0;
+  transition: opacity 0.15s;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M10 3L4.5 8.5L2 6' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+/* ============================================
+   SIZES
+   ============================================ */
+.c-checkbox-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+.c-checkbox-sm::before {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.c-checkbox-lg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.c-checkbox-lg::before {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+/* ============================================
+   STATES - DEFAULT
+   ============================================ */
+
+/* Hover */
+.c-checkbox:hover {
+  border-color: var(--color-brand-700);
+}
+
+/* Checked */
+.c-checkbox:checked {
+  background-color: var(--color-brand-700);
+  border-color: var(--color-brand-700);
+}
+
+.c-checkbox:checked::before {
+  opacity: 1;
+}
+
+.c-checkbox:checked:hover {
+  background-color: var(--color-brand-800);
+  border-color: var(--color-brand-800);
+}
+
+/* Focus */
+.c-checkbox:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow-focus-blue), 0 0 0 2px var(--color-white);
+  border-color: var(--color-brand-700);
+}
+
+.c-checkbox:checked:focus-visible {
+  box-shadow: var(--shadow-focus-blue), 0 0 0 2px var(--color-white);
+}
+
+/* Disabled */
+.c-checkbox:disabled {
+  cursor: not-allowed;
+  background-color: var(--color-gray-100);
+  border-color: var(--color-gray-200);
+}
+
+.c-checkbox:disabled::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M10 3L4.5 8.5L2 6' stroke='%239ba8b7' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.c-checkbox:checked:disabled {
+  background-color: var(--color-gray-100);
+  border-color: var(--color-gray-200);
+}
+
+/* ============================================
+   DESTRUCTIVE VARIANT
+   ============================================ */
+.c-checkbox-destructive {
+  border-color: var(--color-error-500);
+}
+
+.c-checkbox-destructive:hover {
+  border-color: var(--color-error-600);
+}
+
+.c-checkbox-destructive:checked {
+  background-color: var(--color-error-500);
+  border-color: var(--color-error-500);
+}
+
+.c-checkbox-destructive:checked:hover {
+  background-color: var(--color-error-600);
+  border-color: var(--color-error-600);
+}
+
+.c-checkbox-destructive:focus-visible {
+  box-shadow: var(--shadow-focus-error), 0 0 0 2px var(--color-white);
+  border-color: var(--color-error-500);
+}
+
+.c-checkbox-destructive:checked:focus-visible {
+  box-shadow: var(--shadow-focus-error), 0 0 0 2px var(--color-white);
+}
+
+/* ============================================
+   CHECKBOX FIELD (label wrapper with text)
+   Use <label class="c-checkbox-field"> to wrap
+   the checkbox - clicking anywhere toggles it
+   ============================================ */
+.c-checkbox-field {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+  cursor: pointer;
+}
+
+.c-checkbox-field .c-checkbox {
+  margin-top: 0.125rem;
+}
+
+.c-checkbox-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.c-checkbox-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.43;
+  letter-spacing: -0.01em;
+  color: var(--color-gray-900);
+}
+
+.c-checkbox-description {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.43;
+  letter-spacing: -0.01em;
+  color: var(--color-gray-600);
+}
+
+/* Disabled field styling */
+.c-checkbox-field:has(.c-checkbox:disabled) {
+  cursor: not-allowed;
+}
+
+.c-checkbox-field:has(.c-checkbox:disabled) .c-checkbox-label,
+.c-checkbox-field:has(.c-checkbox:disabled) .c-checkbox-description {
+  color: var(--color-gray-400);
+}

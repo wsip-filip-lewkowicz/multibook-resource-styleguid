@@ -13,14 +13,18 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix --cache",
-    "format": "prettier --write --experimental-cli src/"
+    "format": "prettier --write --experimental-cli src/",
+    "build:css": "mkdir -p dist && cat src/styles/variables.css src/styles/typography.css src/styles/buttons.css src/styles/checkboxes.css src/styles/radios.css src/styles/switches.css > dist/styles.css"
   },
   "dependencies": {
+    "prism-themes": "^1.9.0",
+    "prismjs": "^1.30.0",
     "vue": "^3.5.26"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.3",
     "@types/node": "^24.10.4",
+    "@types/prismjs": "^1.26.5",
     "@vitejs/plugin-vue": "^6.0.3",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.6.0",
