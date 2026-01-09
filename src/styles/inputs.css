@@ -68,6 +68,7 @@
 .c-input[aria-invalid='true'] {
   border-color: var(--color-error-300);
   box-shadow: var(--shadow-xs);
+  color: var(--color-error-600);
 }
 
 .c-input[aria-invalid='true']:focus-visible {
