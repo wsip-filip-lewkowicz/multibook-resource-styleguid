@@ -123,7 +123,7 @@
 }
 
 .c-btn-primary:active {
-  background-color: rgba(0, 90, 190, 0.75);
+  background-color: var(--color-brand-700-75);
 }
 
 .c-btn-primary:disabled {
@@ -163,7 +163,7 @@
 }
 
 .c-btn-primary-ghost:active {
-  background-color: rgba(230, 239, 249, 0.5);
+  background-color: var(--color-brand-50-50);
 }
 
 .c-btn-primary-ghost:disabled {
@@ -184,7 +184,7 @@
 }
 
 .c-btn-secondary:active {
-  background-color: rgba(61, 72, 85, 0.75);
+  background-color: var(--color-gray-700-75);
 }
 
 .c-btn-secondary:disabled {
@@ -283,7 +283,7 @@
 }
 
 .c-btn-error:active {
-  background-color: rgba(217, 45, 32, 0.75);
+  background-color: var(--color-error-600-75);
 }
 
 .c-btn-error:disabled {
@@ -331,7 +331,7 @@
 }
 
 .c-btn-error-ghost:active {
-  background-color: rgba(254, 243, 242, 0.5);
+  background-color: var(--color-error-50-50);
 }
 
 .c-btn-error-ghost:disabled {
@@ -341,11 +341,4 @@
 
 .c-btn-error-ghost:focus-visible {
   outline-color: var(--color-error-600);
-}
-
-/* ============================================
-   BLOCK (full width)
-   ============================================ */
-.c-btn-block {
-  width: 100%;
 }

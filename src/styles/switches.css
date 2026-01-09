@@ -43,16 +43,6 @@
   height: 16px;
 }
 
-.c-switch-lg {
-  width: 44px;
-  height: 24px;
-}
-
-.c-switch-lg::before {
-  width: 20px;
-  height: 20px;
-}
-
 /* ============================================
    STATES - DEFAULT
    ============================================ */
@@ -71,10 +61,6 @@
   transform: translateX(16px);
 }
 
-.c-switch-lg:checked::before {
-  transform: translateX(20px);
-}
-
 .c-switch:checked:hover {
   background-color: var(--color-brand-800);
 }
@@ -82,10 +68,6 @@
 /* Focus */
 .c-switch:focus-visible {
   outline: none;
-  box-shadow: var(--shadow-focus-blue), 0 0 0 2px var(--color-white);
-}
-
-.c-switch:checked:focus-visible {
   box-shadow: var(--shadow-focus-blue), 0 0 0 2px var(--color-white);
 }
 
@@ -103,10 +85,6 @@
   background-color: var(--color-gray-blue-100);
 }
 
-.c-switch:checked:disabled::before {
-  background-color: var(--color-gray-25);
-}
-
 /* ============================================
    SWITCH FIELD (wrapper with text)
    ============================================ */
@@ -117,10 +95,6 @@
   cursor: pointer;
 }
 
-.c-switch-field .c-switch {
-  margin-top: 0;
-}
-
 .c-switch-text {
   display: flex;
   flex-direction: column;
@@ -128,19 +102,19 @@
 }
 
 .c-switch-label {
-  font-size: 0.875rem;
+  font-size: var(--font-size-form);
   font-weight: 500;
-  line-height: 1.43;
-  letter-spacing: -0.01em;
+  line-height: var(--line-height-form);
+  letter-spacing: var(--letter-spacing-form);
   color: var(--color-gray-900);
   cursor: pointer;
 }
 
 .c-switch-description {
-  font-size: 0.875rem;
+  font-size: var(--font-size-form);
   font-weight: 400;
-  line-height: 1.43;
-  letter-spacing: -0.01em;
+  line-height: var(--line-height-form);
+  letter-spacing: var(--letter-spacing-form);
   color: var(--color-gray-600);
 }
 

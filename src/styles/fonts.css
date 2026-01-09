@@ -1,0 +1,129 @@
+/* Silka Font Family */
+
+/* Weight 100 - Thin */
+@font-face {
+  font-family: "Silka";
+  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-thin") format("woff2");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Silka";
+  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-thin-italic") format("woff2");
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Weight 200 - Extra Light */
+@font-face {
+  font-family: "Silka";
+  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-extra-light") format("woff2");
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Silka";
+  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-extra-light-italic") format("woff2");
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Weight 300 - Light */
+@font-face {
+  font-family: "Silka";
+  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-light") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Silka";
+  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-light-italic") format("woff2");
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Weight 400 - Regular */
+@font-face {
+  font-family: "Silka";
+  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-regular") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Silka";
+  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-regular-italic") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Weight 500 - Medium */
+@font-face {
+  font-family: "Silka";
+  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-medium") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Silka";
+  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-medium-italic") format("woff2");
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Weight 600 - Semi Bold */
+@font-face {
+  font-family: "Silka";
+  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-semi-bold") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Silka";
+  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-semi-bold-italic") format("woff2");
+  font-weight: 600;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Weight 700 - Bold */
+@font-face {
+  font-family: "Silka";
+  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-bold") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Silka";
+  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-bold-italic") format("woff2");
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* Weight 900 - Black */
+@font-face {
+  font-family: "Silka";
+  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-black") format("woff2");
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Silka";
+  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-black-italic") format("woff2");
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}

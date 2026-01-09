@@ -95,75 +95,6 @@
   --color-blue-800: #144866;
   --color-blue-900: #0d2e44;
 
-  /* Orange */
-  --color-orange-25: #fffaf5;
-  --color-orange-50: #fff6ed;
-  --color-orange-100: #ffead5;
-  --color-orange-200: #fddcab;
-  --color-orange-300: #feb273;
-  --color-orange-400: #fd853a;
-  --color-orange-500: #fb6514;
-  --color-orange-700: #c4320a;
-
-  /* Rose */
-  --color-rose-25: #fff5f6;
-  --color-rose-50: #fff1f3;
-  --color-rose-100: #ffe4e8;
-  --color-rose-200: #fecdd6;
-  --color-rose-300: #fea3b4;
-  --color-rose-400: #fd6f8e;
-  --color-rose-600: #e31b54;
-  --color-rose-700: #c01048;
-  --color-rose-800: #a11043;
-  --color-rose-900: #89123e;
-
-  /* Pink */
-  --color-pink-25: #fef6fb;
-  --color-pink-50: #fdf2fa;
-  --color-pink-100: #fce7f6;
-  --color-pink-200: #fcceee;
-  --color-pink-300: #faa7e0;
-  --color-pink-400: #f670c7;
-  --color-pink-500: #ee46bc;
-  --color-pink-600: #dd2590;
-  --color-pink-700: #c11574;
-  --color-pink-800: #9e165f;
-  --color-pink-900: #851651;
-
-  /* Purple */
-  --color-purple-25: #fafaff;
-  --color-purple-50: #f4f3ff;
-  --color-purple-100: #ebe9fe;
-  --color-purple-200: #d9d6fe;
-  --color-purple-300: #bdb4fe;
-  --color-purple-400: #9b8afb;
-  --color-purple-500: #7a5af8;
-  --color-purple-600: #6938ef;
-  --color-purple-700: #5925dc;
-  --color-purple-800: #4a1fb8;
-  --color-purple-900: #3e1c96;
-
-  /* Indigo */
-  --color-indigo-25: #f3f2ff;
-  --color-indigo-50: #e8e8ff;
-  --color-indigo-100: #d4d4ff;
-  --color-indigo-200: #b4b1ff;
-  --color-indigo-300: #8e85ff;
-  --color-indigo-400: #6a53ff;
-  --color-indigo-500: #5630f7;
-  --color-indigo-600: #481ee3;
-  --color-indigo-700: #3c18bf;
-  --color-indigo-800: #33169c;
-  --color-indigo-900: #190a5f;
-
-  /* Segment Colors */
-  --color-segment-wp: #ff296f;
-  --color-segment-sp1: #ff7029;
-  --color-segment-sp48: #f9c80e;
-  --color-segment-sp: #32e875;
-  --color-segment-jo: #1397f8;
-  --color-segment-ksz: #5f4ae3;
-
   /* Base */
   --color-white: #ffffff;
   --color-black: #000000;
@@ -195,7 +126,19 @@
   --radius-full: 9999px;
 
   /* ============================================
-     SPACING
+     TYPOGRAPHY - Form Controls
      ============================================ */
-  --spacing: 0.25rem;
+  --font-size-form: 0.875rem;
+  --line-height-form: 1.43;
+  --letter-spacing-form: -0.01em;
+
+  /* ============================================
+     COLORS WITH OPACITY
+     Used for active/pressed states
+     ============================================ */
+  --color-brand-700-75: rgba(0, 90, 190, 0.75);
+  --color-gray-700-75: rgba(61, 72, 85, 0.75);
+  --color-error-600-75: rgba(217, 45, 32, 0.75);
+  --color-brand-50-50: rgba(230, 239, 249, 0.5);
+  --color-error-50-50: rgba(254, 243, 242, 0.5);
 }
