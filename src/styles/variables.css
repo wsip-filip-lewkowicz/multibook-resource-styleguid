@@ -128,6 +128,7 @@
   /* ============================================
      TYPOGRAPHY - Form Controls
      ============================================ */
+  --font-family: "Silka", sans-serif;
   --font-size-form: 0.875rem;
   --line-height-form: 1.43;
   --letter-spacing-form: -0.01em;
