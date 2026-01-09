@@ -1,3 +1,4 @@
+import { toast } from 'vue-sonner'
 import variablesCss from '../styles/variables.css?raw'
 
 export interface CssVariable {
@@ -92,12 +93,12 @@ function parseVariables(cssText: string): ParsedVariables {
   return { colorGroups, shadows, focusRings, radius, typography, opacityColors }
 }
 
-export function useCSSVariables(showToastMessage: (message: string) => void) {
+export function useCSSVariables() {
   const parsedVars = parseVariables(variablesCss)
 
   function handleCopyVariable(varName: string) {
     navigator.clipboard.writeText(`var(${varName})`)
-    showToastMessage(`Skopiowano: var(${varName})`)
+    toast.success(`Skopiowano: var(${varName})`)
   }
 
   return {

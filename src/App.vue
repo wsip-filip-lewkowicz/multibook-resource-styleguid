@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
+import 'vue-sonner/style.css'
+import { Toaster, toast } from 'vue-sonner'
 import { useCSSVariables } from './composables/useCSSVariables'
 import { navItems } from './constants/navigation'
 import AppSidebar from './components/AppSidebar.vue'
@@ -15,30 +17,14 @@ import SwitchesSection from './components/sections/SwitchesSection.vue'
 import CheckboxesSection from './components/sections/CheckboxesSection.vue'
 import RadioSection from './components/sections/RadioSection.vue'
 
-const toastMessage = ref('')
-const showToast = ref(false)
-const toastTimeout = ref<ReturnType<typeof setTimeout> | null>(null)
-
-function showToastMessage(message: string) {
-  if (toastTimeout.value) {
-    clearTimeout(toastTimeout.value)
-  }
-  toastMessage.value = message
-  showToast.value = true
-  toastTimeout.value = setTimeout(() => {
-    showToast.value = false
-    toastTimeout.value = null
-  }, 2000)
-}
-
-const { parsedVars, handleCopyVariable } = useCSSVariables(showToastMessage)
+const { parsedVars, handleCopyVariable } = useCSSVariables()
 
 function handleCopy(text: string) {
-  showToastMessage(`Skopiowano: ${text}`)
+  toast.success(`Skopiowano: ${text}`)
 }
 
 function handleCopyHtml() {
-  showToastMessage('Skopiowano kod HTML')
+  toast.success('Skopiowano kod HTML')
 }
 
 // Active section tracking
@@ -480,9 +466,6 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  if (toastTimeout.value) {
-    clearTimeout(toastTimeout.value)
-  }
   observer?.disconnect()
   selectCleanups.forEach(cleanup => cleanup())
 })
@@ -512,11 +495,7 @@ onUnmounted(() => {
       <RadioSection @copy-html="handleCopyHtml" />
     </main>
 
-    <Transition name="toast">
-      <div v-if="showToast" class="toast">
-        {{ toastMessage }}
-      </div>
-    </Transition>
+    <Toaster position="bottom-right" :duration="2000" />
   </div>
 </template>
 
