@@ -14,7 +14,7 @@
 import { build } from 'vite'
 import { resolve, dirname, basename } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { writeFileSync, mkdirSync, existsSync } from 'node:fs'
+import { writeFileSync, unlinkSync, mkdirSync, existsSync } from 'node:fs'
 import { cssConfig } from './bundle-config.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -28,9 +28,9 @@ const buildGlobal = args.length === 0 || args.includes('--global')
 const buildStandalone = args.length === 0 || args.includes('--standalone')
 
 /**
- * Generate index.css content from global files
+ * Generate temporary bundle CSS content from global files
  */
-function generateIndexCss(): string {
+function generateBundleCss(): string {
   const imports = cssConfig.global.map((file) => `@import './${file}';`)
   return imports.join('\n') + '\n'
 }
@@ -47,27 +47,35 @@ async function buildGlobalBundle(): Promise<void> {
   console.log(`\n📦 Building global CSS bundle → dist/${cssConfig.globalOutput}`)
   console.log(`   Files: ${cssConfig.global.join(', ')}`)
 
-  // Generate index.css
-  const indexContent = generateIndexCss()
-  const indexPath = resolve(SRC_STYLES, 'index.css')
-  writeFileSync(indexPath, indexContent)
+  // Generate temporary bundle file (don't overwrite src/styles/index.css)
+  const bundleContent = generateBundleCss()
+  const tempBundlePath = resolve(SRC_STYLES, '_bundle.css')
+  writeFileSync(tempBundlePath, bundleContent)
 
-  await build({
-    root: ROOT,
-    logLevel: 'warn',
-    build: {
-      emptyOutDir: false,
-      cssMinify: true,
-      rollupOptions: {
-        input: indexPath,
-        output: {
-          assetFileNames: () => cssConfig.globalOutput,
+  try {
+    await build({
+      root: ROOT,
+      logLevel: 'warn',
+      build: {
+        emptyOutDir: false,
+        cssMinify: true,
+        rollupOptions: {
+          input: tempBundlePath,
+          output: {
+            assetFileNames: () => cssConfig.globalOutput,
+          },
         },
       },
-    },
-  })
-
-  console.log(`   ✓ dist/${cssConfig.globalOutput}`)
+    })
+    console.log(`   ✓ dist/${cssConfig.globalOutput}`)
+  } finally {
+    // Clean up temp file
+    try {
+      unlinkSync(tempBundlePath)
+    } catch {
+      // ignore
+    }
+  }
 }
 
 /**

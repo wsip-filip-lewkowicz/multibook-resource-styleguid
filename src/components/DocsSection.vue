@@ -11,6 +11,9 @@ defineProps<{
       <a :href="'#' + id" class="docs-section-anchor">#</a>
       {{ title }}
     </h2>
+    <div v-if="$slots.description" class="docs-section-description">
+      <slot name="description" />
+    </div>
     <slot />
   </section>
 </template>
@@ -31,6 +34,30 @@ defineProps<{
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+.docs-section-description {
+  margin-bottom: 1.5rem;
+  color: var(--color-gray-700);
+}
+
+.docs-section-description :deep(pre:not([class*='language-'])) {
+  background: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  margin-top: 1rem;
+}
+
+.docs-section-description :deep(code:not([class*='language-'])) {
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', monospace;
+}
+
+.docs-section-description :deep(a) {
+  color: var(--color-brand-700);
+  text-decoration: underline;
 }
 
 .docs-section-anchor {

@@ -69,8 +69,8 @@ async function buildGlobalBundle(): Promise<void> {
         lib: {
           entry: indexPath,
           name: 'MultibookScripts',
-          fileName: () => jsConfig.globalOutput,
-          formats: ['es'],
+          fileName: () => jsConfig.globalOutput.replace('.js', ''),
+          formats: ['iife'],
         },
         rollupOptions: {
           external: ['plyr'],
@@ -125,9 +125,12 @@ async function buildStandaloneFiles(): Promise<void> {
         minify: true,
         lib: {
           entry: inputPath,
-          name: outputName.replace(/-./g, (x) => x[1].toUpperCase()), // kebab-to-camel
-          fileName: () => `${outputName}.js`,
-          formats: ['es'],
+          name: outputName
+            .split('-')
+            .map((s, i) => (i === 0 ? s : s[0].toUpperCase() + s.slice(1)))
+            .join(''), // kebab-to-camelCase
+          fileName: () => outputName,
+          formats: ['iife'],
         },
         rollupOptions: {
           external: ['plyr'],

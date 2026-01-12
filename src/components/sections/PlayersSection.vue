@@ -1,21 +1,53 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import DocsSection from '../DocsSection.vue'
 import DocsSubsection from '../DocsSubsection.vue'
 import DocsExample from '../DocsExample.vue'
+import DocsCode from '../DocsCode.vue'
 import { Links } from '../../constants/links'
 
 const emit = defineEmits<{
   copyHtml: []
 }>()
+
+const setupCode = computed(
+  () => `<!-- 1. Plyr CSS (CDN) -->
+<link rel="stylesheet" href="${Links.PLYR_CSS}" />
+
+<!-- 2. Style playerow -->
+<link rel="stylesheet" href="${Links.PLAYERS_CSS}" />
+
+<!-- 3. Plyr JS (CDN, przed skryptami playerow) -->
+<script src="${Links.PLYR_JS}"><\/script>
+
+<!-- 4. Skrypty playerow -->
+<script src="${Links.AUDIO_PLAYER}"><\/script>
+<script src="${Links.VIDEO_PLAYER}"><\/script>
+
+<!-- 5. Inicjalizacja -->
+<script>
+  audioPlayer.initAudioPlayers();
+  videoPlayer.initVideoPlayers();
+<\/script>`,
+)
 </script>
 
 <template>
   <DocsSection id="odtwarzacze" title="Odtwarzacze">
+    <template #description>
+      <p>
+        Odtwarzacze audio i video wymagaja biblioteki
+        <a href="https://plyr.io/" target="_blank" rel="noopener">Plyr</a> oraz dedykowanych stylow
+        i skryptow.
+      </p>
+      <DocsCode :code="setupCode" />
+    </template>
+
     <DocsSubsection id="audio-player" title="Odtwarzacz audio">
       <template #description>
-        Aby odtwarzacz dzialal, podlacz skrypt
-        <code>&lt;script type="module" src="{{ Links.AUDIO_PLAYER }}"&gt;&lt;/script&gt;</code>
-        i wywolaj <code>initAudioPlayers()</code> po wyrenderowaniu elementow.
+        Kontener musi miec atrybut <code>data-audio-player</code> oraz zawierac element
+        <code>&lt;audio&gt;</code>. Wywolaj <code>audioPlayer.initAudioPlayers()</code> po
+        wyrenderowaniu elementow.
       </template>
       <DocsExample
         @copy="emit('copyHtml')"
@@ -31,9 +63,9 @@ const emit = defineEmits<{
 
     <DocsSubsection id="video-player" title="Odtwarzacz video (plik)">
       <template #description>
-        Aby odtwarzacz dzialal, podlacz skrypt
-        <code>&lt;script type="module" src="{{ Links.VIDEO_PLAYER }}"&gt;&lt;/script&gt;</code>
-        i wywolaj <code>initVideoPlayers()</code> po wyrenderowaniu elementow.
+        Kontener musi miec atrybut <code>data-video-player</code> oraz zawierac element
+        <code>&lt;video&gt;</code>. Wywolaj <code>videoPlayer.initVideoPlayers()</code> po
+        wyrenderowaniu elementow.
       </template>
       <DocsExample
         @copy="emit('copyHtml')"

@@ -223,31 +223,68 @@ Aby użyć CSS/JS w innym projekcie:
 
 ### Użycie playerów
 
+Playery wymagają biblioteki [Plyr](https://plyr.io/) załadowanej przed skryptami.
+
 ```html
-<!-- CSS -->
-<link rel="stylesheet" href="path/to/plyr.css" />
+<!-- 1. Plyr CSS -->
+<link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+
+<!-- 2. Style playerów -->
 <link rel="stylesheet" href="path/to/players.css" />
 
-<!-- Audio player -->
+<!-- 3. Plyr JS (wymagane przed skryptami playerów) -->
+<script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
+
+<!-- 4. Skrypty playerów -->
+<script src="path/to/audio-player.js"></script>
+<script src="path/to/video-player.js"></script>
+
+<!-- 5. Inicjalizacja -->
+<script>
+  audioPlayer.initAudioPlayers()
+  videoPlayer.initVideoPlayers()
+</script>
+```
+
+#### Audio player
+
+```html
 <div class="c-audio-player" data-audio-player>
   <audio src="audio.mp3" preload="metadata"></audio>
 </div>
+```
 
-<!-- Video player -->
-<div class="c-video-player" data-video-player data-title="Tytuł video">
+#### Video player
+
+```html
+<!-- Podstawowy -->
+<div class="c-video-player" data-video-player>
   <video poster="poster.jpg" preload="metadata">
     <source src="video.mp4" type="video/mp4" />
   </video>
 </div>
 
-<!-- JS -->
-<script type="module">
-  import { initAudioPlayers } from 'path/to/audio-player.js'
-  import { initVideoPlayers } from 'path/to/video-player.js'
+<!-- Z tytułem -->
+<div class="c-video-player" data-video-player data-title="Tytuł video">
+  <video poster="poster.jpg" preload="metadata">
+    <source src="video.mp4" type="video/mp4" />
+  </video>
+</div>
+```
 
-  initAudioPlayers()
-  initVideoPlayers()
-</script>
+#### API
+
+```javascript
+// Inicjalizacja wszystkich playerów w dokumencie
+audioPlayer.initAudioPlayers()
+videoPlayer.initVideoPlayers()
+
+// Inicjalizacja w konkretnym kontenerze
+audioPlayer.initAudioPlayers(document.querySelector('.my-container'))
+
+// Zniszczenie playerów (cleanup)
+audioPlayer.destroyAudioPlayers()
+videoPlayer.destroyVideoPlayers()
 ```
 
 ## Technologie
