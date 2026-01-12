@@ -19,7 +19,7 @@ const emit = defineEmits<{
     <DocsSubsection
       id="ikony-uzycie"
       title="Podstawowe uzycie"
-      description="Ikony dodajemy uzywajac tagu <code>&lt;i&gt;</code> z klasa wagi i nazwy ikony."
+      description="Ikony dodajemy uzywajac tagu <code>&amp;lt;i&amp;gt;</code> z klasa wagi i nazwy ikony."
     >
       <DocsExample
         @copy="emit('copyHtml')"

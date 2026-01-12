@@ -260,15 +260,27 @@
   color: var(--color-gray-500);
 }
 
-.c-select-trigger[aria-invalid='true'] {
-  border-color: var(--color-error-300);
-  box-shadow: var(--shadow-xs);
+.c-select-trigger[aria-invalid='true'],
+.c-select-trigger--error {
+  border-color: var(--color-error-600);
 }
 
 .c-select.is-open .c-select-trigger[aria-invalid='true'],
-.c-select-trigger[aria-invalid='true']:focus-visible {
-  border-color: var(--color-error-300);
+.c-select-trigger[aria-invalid='true']:focus-visible,
+.c-select.is-open .c-select-trigger--error,
+.c-select-trigger--error:focus-visible {
+  border-color: var(--color-error-600);
   box-shadow: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-error-500);
+}
+
+.c-select-trigger--success {
+  border-color: var(--color-success-500);
+}
+
+.c-select.is-open .c-select-trigger--success,
+.c-select-trigger--success:focus-visible {
+  border-color: var(--color-success-500);
+  box-shadow: 0 0 0 2px var(--color-white), 0 0 0 4px var(--color-success-500);
 }
 
 .c-select-icon {

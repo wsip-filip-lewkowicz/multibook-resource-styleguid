@@ -369,6 +369,115 @@ const emit = defineEmits<{
           </div>
         </div>
       </DocsExample>
+
+      <DocsExample
+        @copy="emit('copyHtml')"
+        :code="`<div class='input-stack'>
+  <div class='c-input-field'>
+    <label class='c-input-label' id='select-success-label'>Przedzial</label>
+    <div class='c-select' data-select>
+      <button
+        class='c-select-trigger c-select-trigger--success'
+        type='button'
+        data-select-trigger
+        aria-labelledby='select-success-label'
+        aria-controls='select-success-list'
+        aria-expanded='false'
+        aria-haspopup='listbox'
+      >
+        <span class='c-select-value' data-select-value>0, 1, 2</span>
+        <span class='c-select-icon'><i class='ph ph-caret-down'></i></span>
+      </button>
+      <div class='c-select-dropdown' data-select-dropdown aria-hidden='true'>
+        <div class='c-select-dropdown-list' role='listbox' id='select-success-list'>
+          <button class='c-select-option' type='button' role='option' data-select-option data-value='0'>0</button>
+          <button class='c-select-option' type='button' role='option' data-select-option data-value='1'>0, 1</button>
+          <button class='c-select-option' type='button' role='option' aria-selected='true' data-select-option data-value='2'>0, 1, 2</button>
+        </div>
+      </div>
+    </div>
+    <span class='c-input-hint'>Success state.</span>
+  </div>
+  <div class='c-input-field'>
+    <label class='c-input-label' id='select-error-helper-label'>Przedzial</label>
+    <div class='c-select' data-select>
+      <button
+        class='c-select-trigger c-select-trigger--error'
+        type='button'
+        data-select-trigger
+        aria-labelledby='select-error-helper-label'
+        aria-controls='select-error-helper-list'
+        aria-expanded='false'
+        aria-haspopup='listbox'
+      >
+        <span class='c-select-value' data-select-value data-placeholder='true'>Wybierz</span>
+        <span class='c-select-icon'><i class='ph ph-caret-down'></i></span>
+      </button>
+      <div class='c-select-dropdown' data-select-dropdown aria-hidden='true'>
+        <div class='c-select-dropdown-list' role='listbox' id='select-error-helper-list'>
+          <button class='c-select-option' type='button' role='option' data-select-option data-value='0'>0</button>
+          <button class='c-select-option' type='button' role='option' data-select-option data-value='1'>0, 1</button>
+          <button class='c-select-option' type='button' role='option' data-select-option data-value='2'>0, 1, 2</button>
+        </div>
+      </div>
+    </div>
+    <span class='c-input-hint c-input-hint--error'>Error state.</span>
+  </div>
+</div>`"
+      >
+        <div class="input-stack">
+          <div class="c-input-field">
+            <label class="c-input-label" id="select-success-label">Przedzial</label>
+            <div class="c-select" data-select>
+              <button
+                class="c-select-trigger c-select-trigger--success"
+                type="button"
+                data-select-trigger
+                aria-labelledby="select-success-label"
+                aria-controls="select-success-list"
+                aria-expanded="false"
+                aria-haspopup="listbox"
+              >
+                <span class="c-select-value" data-select-value>0, 1, 2</span>
+                <span class="c-select-icon"><i class="ph ph-caret-down"></i></span>
+              </button>
+              <div class="c-select-dropdown" data-select-dropdown aria-hidden="true">
+                <div class="c-select-dropdown-list" role="listbox" id="select-success-list">
+                  <button class="c-select-option" type="button" role="option" data-select-option data-value="0">0</button>
+                  <button class="c-select-option" type="button" role="option" data-select-option data-value="1">0, 1</button>
+                  <button class="c-select-option" type="button" role="option" aria-selected="true" data-select-option data-value="2">0, 1, 2</button>
+                </div>
+              </div>
+            </div>
+            <span class="c-input-hint">Success state.</span>
+          </div>
+          <div class="c-input-field">
+            <label class="c-input-label" id="select-error-helper-label">Przedzial</label>
+            <div class="c-select" data-select>
+              <button
+                class="c-select-trigger c-select-trigger--error"
+                type="button"
+                data-select-trigger
+                aria-labelledby="select-error-helper-label"
+                aria-controls="select-error-helper-list"
+                aria-expanded="false"
+                aria-haspopup="listbox"
+              >
+                <span class="c-select-value" data-select-value data-placeholder="true">Wybierz</span>
+                <span class="c-select-icon"><i class="ph ph-caret-down"></i></span>
+              </button>
+              <div class="c-select-dropdown" data-select-dropdown aria-hidden="true">
+                <div class="c-select-dropdown-list" role="listbox" id="select-error-helper-list">
+                  <button class="c-select-option" type="button" role="option" data-select-option data-value="0">0</button>
+                  <button class="c-select-option" type="button" role="option" data-select-option data-value="1">0, 1</button>
+                  <button class="c-select-option" type="button" role="option" data-select-option data-value="2">0, 1, 2</button>
+                </div>
+              </div>
+            </div>
+            <span class="c-input-hint c-input-hint--error">Error state.</span>
+          </div>
+        </div>
+      </DocsExample>
     </DocsSubsection>
 
     <DocsSubsection id="input-multiselect" title="Multi select">
