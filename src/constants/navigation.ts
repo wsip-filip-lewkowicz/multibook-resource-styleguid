@@ -8,6 +8,7 @@ export const navItems: NavItem[] = [
   { id: 'typografia', label: 'Typografia' },
   { id: 'przyciski', label: 'Przyciski' },
   { id: 'inputy', label: 'Inputy' },
+  { id: 'odtwarzacze', label: 'Odtwarzacze' },
   { id: 'ikony', label: 'Ikony' },
   { id: 'featured-icons', label: 'Ikony wyroznione' },
   { id: 'switche', label: 'Switch' },

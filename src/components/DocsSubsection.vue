@@ -13,7 +13,10 @@ defineProps<{
       {{ title }}
     </h3>
     <h3 v-else class="docs-subsection-title">{{ title }}</h3>
-    <p v-if="description" class="docs-subsection-description" v-html="description"></p>
+    <p v-if="$slots.description" class="docs-subsection-description">
+      <slot name="description" />
+    </p>
+    <p v-else-if="description" class="docs-subsection-description" v-html="description"></p>
     <slot />
   </div>
 </template>

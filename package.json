@@ -14,9 +14,12 @@
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix --cache",
     "format": "prettier --write --experimental-cli src/",
-    "build:css": "vite build --config scripts/build-css.ts"
+    "build:css": "vite-node scripts/build-css.ts",
+    "build:js": "vite-node scripts/build-js.ts",
+    "build:assets": "run-s build:css build:js"
   },
   "dependencies": {
+    "plyr": "^3.8.4",
     "prism-themes": "^1.9.0",
     "prismjs": "^1.30.0",
     "vue": "^3.5.26",
@@ -37,6 +40,7 @@
     "prettier": "3.7.4",
     "typescript": "~5.9.3",
     "vite": "^7.3.0",
+    "vite-node": "^5.2.0",
     "vite-plugin-vue-devtools": "^8.0.5",
     "vue-tsc": "^3.2.2"
   }

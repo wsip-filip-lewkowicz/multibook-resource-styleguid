@@ -21,6 +21,7 @@ src/
 ### Kolory
 
 Zmienne CSS dla kolorów:
+
 ```css
 var(--color-brand-700)    /* Primary brand */
 var(--color-gray-700)     /* Secondary */
@@ -32,6 +33,7 @@ var(--color-warning-500)  /* Warning */
 ### Typografia
 
 Klasy rozmiaru:
+
 ```html
 <p class="t-2xl">Display 2XL</p>
 <p class="t-xl">Display XL</p>
@@ -48,6 +50,7 @@ Klasy rozmiaru:
 ```
 
 Klasy grubości (używaj razem z rozmiarem):
+
 ```html
 <p class="t-h1 t-font-regular">Regular 400</p>
 <p class="t-h1 t-font-medium">Medium 500</p>
@@ -60,17 +63,20 @@ Klasy grubości (używaj razem z rozmiarem):
 Struktura klasy: `.c-btn` + rozmiar + kolor/styl
 
 **Rozmiary:**
+
 - `.c-btn-sm` - Small (36px)
 - `.c-btn-md` - Medium (40px)
 - `.c-btn-lg` - Large (48px)
 
 **Kolory i style:**
+
 - `.c-btn-primary` / `.c-btn-primary-outline` / `.c-btn-primary-ghost`
 - `.c-btn-secondary` / `.c-btn-secondary-outline` / `.c-btn-secondary-ghost`
 - `.c-btn-tertiary` / `.c-btn-tertiary-outline` / `.c-btn-tertiary-ghost`
 - `.c-btn-error` / `.c-btn-error-outline` / `.c-btn-error-ghost`
 
 **Przykłady:**
+
 ```html
 <!-- Podstawowy przycisk -->
 <button class="c-btn c-btn-md c-btn-primary">Tekst</button>
@@ -120,20 +126,128 @@ pnpm build
 # Type check
 pnpm type-check
 
-# Zbuduj CSS do dystrybucji
-pnpm build:css
+# Lint
+pnpm lint
+
+# Format
+pnpm format
 ```
 
-## Eksport CSS
+## Build CSS i JS
 
-Aby użyć CSS w innym projekcie:
+Projekt używa systemu bundlowania zarządzanego przez `scripts/bundle-config.ts`.
 
-1. Zbuduj CSS: `pnpm build:css`
-2. Skopiuj `dist/styles.css` do docelowego projektu
+### Komendy
+
+```bash
+# Zbuduj wszystkie assety (CSS + JS)
+pnpm build:assets
+
+# Zbuduj tylko CSS
+pnpm build:css
+
+# Zbuduj tylko JS
+pnpm build:js
+
+# Zbuduj tylko globalny bundle (bez standalone)
+pnpm build:css --global
+pnpm build:js --global
+
+# Zbuduj tylko standalone pliki (bez globalnego)
+pnpm build:css --standalone
+pnpm build:js --standalone
+```
+
+### Konfiguracja bundli
+
+Edytuj `scripts/bundle-config.ts` aby zarządzać tym, które pliki są bundlowane globalnie, a które jako standalone:
+
+```typescript
+// scripts/bundle-config.ts
+export const cssConfig: BundleConfig = {
+  // Pliki bundlowane do dist/styles.css (kolejność zachowana)
+  global: [
+    'fonts.css',
+    'variables.css',
+    'typography.css',
+    // ...
+  ],
+  // Pliki budowane osobno (np. dist/players.css)
+  standalone: ['players.css'],
+  globalOutput: 'styles.css',
+}
+
+export const jsConfig: BundleConfig = {
+  global: [], // Puste = brak globalnego bundla JS
+  standalone: [
+    'audio-player.ts', // → dist/audio-player.js
+    'video-player.ts', // → dist/video-player.js
+  ],
+  globalOutput: 'scripts.js',
+}
+```
+
+### Output
+
+Po `pnpm build:assets`:
+
+```
+dist/
+├── styles.css         # Globalny CSS bundle
+├── players.css        # Standalone CSS
+├── audio-player.js    # Standalone JS
+├── video-player.js    # Standalone JS
+```
+
+## Eksport do innych projektów
+
+Aby użyć CSS/JS w innym projekcie:
+
+1. Zbuduj assety: `pnpm build:assets`
+2. Skopiuj pliki z `dist/`:
+   - `styles.css` - globalny CSS bundle
+   - `players.css` - style playerów (opcjonalne, jeśli używasz playerów)
+   - `audio-player.js` / `video-player.js` - skrypty playerów
 3. Dodaj Phosphor Icons CDN:
+
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css" />
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css" />
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css"
+/>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css"
+/>
+```
+
+### Użycie playerów
+
+```html
+<!-- CSS -->
+<link rel="stylesheet" href="path/to/plyr.css" />
+<link rel="stylesheet" href="path/to/players.css" />
+
+<!-- Audio player -->
+<div class="c-audio-player" data-audio-player>
+  <audio src="audio.mp3" preload="metadata"></audio>
+</div>
+
+<!-- Video player -->
+<div class="c-video-player" data-video-player data-title="Tytuł video">
+  <video poster="poster.jpg" preload="metadata">
+    <source src="video.mp4" type="video/mp4" />
+  </video>
+</div>
+
+<!-- JS -->
+<script type="module">
+  import { initAudioPlayers } from 'path/to/audio-player.js'
+  import { initVideoPlayers } from 'path/to/video-player.js'
+
+  initAudioPlayers()
+  initVideoPlayers()
+</script>
 ```
 
 ## Technologie

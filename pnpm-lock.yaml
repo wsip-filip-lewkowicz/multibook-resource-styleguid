@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      plyr:
+        specifier: ^3.8.4
+        version: 3.8.4
       prism-themes:
         specifier: ^1.9.0
         version: 1.9.0
@@ -63,6 +66,9 @@ importers:
       vite:
         specifier: ^7.3.0
         version: 7.3.1(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)
+      vite-node:
+        specifier: ^5.2.0
+        version: 5.2.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)
       vite-plugin-vue-devtools:
         specifier: ^8.0.5
         version: 8.0.5(vite@7.3.1(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2))(vue@3.5.26(typescript@5.9.3))
@@ -825,6 +831,10 @@ packages:
     resolution: {integrity: sha512-tjwM5exMg6BGRI+kNmTntNsvdZS1X8BFYS6tnJ2hdH0kVxM6/eVZ2xy+FqStSWvYmtfFMDLIxurorHwDKfDz5Q==}
     engines: {node: '>=18'}
 
+  cac@6.7.14:
+    resolution: {integrity: sha512-b6Ilus+c3RrdDk+JhLKUAQfzzgLEPy6wcXqS7f/xe1EETvsDP6GORG7SFuOs6cID5YkqchW/LXZbX5bc8j7ZcQ==}
+    engines: {node: '>=8'}
+
   callsites@3.1.0:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
     engines: {node: '>=6'}
@@ -853,6 +863,9 @@ packages:
     resolution: {integrity: sha512-7Vv6asjS4gMOuILabD3l739tsaxFQmC+a7pLZm02zyvs8p977bL3zEgq3yDk5rn9B0PbYgIv++jmHcuUab4RhA==}
     engines: {node: '>=18'}
 
+  core-js@3.47.0:
+    resolution: {integrity: sha512-c3Q2VVkGAUyupsjRnaNX6u8Dq2vAdzm9iuPj5FW0fRxzlxgq9Q39MDq10IvmQSpLgHQNyQzQmOo6bgGHmH3NNg==}
+
   cross-spawn@7.0.6:
     resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
     engines: {node: '>= 8'}
@@ -864,6 +877,9 @@ packages:
 
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
+
+  custom-event-polyfill@1.0.7:
+    resolution: {integrity: sha512-TDDkd5DkaZxZFM8p+1I3yAlvM3rSr1wbrOliG4yJiwinMZN8z/iGL7BTlDkrJcYTmgUSb4ywVCc3ZaUtOtC76w==}
 
   debug@4.4.3:
     resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
@@ -902,6 +918,9 @@ packages:
 
   error-stack-parser-es@1.0.5:
     resolution: {integrity: sha512-5qucVt2XcuGMcEGgWI7i+yZpmpByQ8J1lHhcL7PwqCwu9FPP3VUXzT4ltHe5i2z9dePwEHcDVOAfSnHsOlCXRA==}
+
+  es-module-lexer@1.7.0:
+    resolution: {integrity: sha512-jEQoCwk8hyb2AZziIOLhDqpm5+2ww5uIE6lkO/6jcOCusfk6LhMHpXXfBLXTZ7Ydyt0j4VoUQv6uGNYbdW+kBA==}
 
   esbuild@0.27.2:
     resolution: {integrity: sha512-HyNQImnsOC7X9PMNaCIeAm4ISCQXs5a5YasTXVliKv4uuBo1dKrG0A+uQS8M5eXjVMnLg3WgXaKvprHlFJQffw==}
@@ -1237,6 +1256,9 @@ packages:
     resolution: {integrity: sha512-utfs7Pr5uJyyvDETitgsaqSyjCb2qNRAtuqUeWIAKztsOYdcACf2KtARYXg2pSvhkt+9NfoaNY7fxjl6nuMjIQ==}
     engines: {node: '>= 12.0.0'}
 
+  loadjs@4.3.0:
+    resolution: {integrity: sha512-vNX4ZZLJBeDEOBvdr2v/F+0aN5oMuPu7JTqrMwp+DtgK+AryOlpy6Xtm2/HpNr+azEa828oQjOtWsB6iDtSfSQ==}
+
   locate-path@6.0.0:
     resolution: {integrity: sha512-iPZK6eYjbxRu3uB4/WZ3EsEIMJFMqAoopl3R+zuq0UjcAm/MO6KCweDgPfP3elTztoKP3KtnVHxTn2NHBSDVUw==}
     engines: {node: '>=10'}
@@ -1310,6 +1332,9 @@ packages:
   nth-check@2.1.1:
     resolution: {integrity: sha512-lqjrjmaOoAnWfMmBPL+XNnynZh2+swxiX3WUE0s4yEHI6m+AwrK2UZOimIRl3X/4QctVqS8AiZjFqyOGrMXb/w==}
 
+  obug@2.1.1:
+    resolution: {integrity: sha512-uTqF9MuPraAQ+IsnPf366RG4cP9RtUi7MLO1N3KEc+wb0a6yKpeL0lmk2IB1jY5KHPAlTc6T/JRdC/YqxHNwkQ==}
+
   ohash@2.0.11:
     resolution: {integrity: sha512-RdR9FQrFwNBNXAr4GixM8YaRZRJ5PUWbKYbE5eOsrwAjJW0q2REGcf79oYPsLyskQCZG1PLN+S/K1V00joZAoQ==}
 
@@ -1366,6 +1391,9 @@ packages:
     engines: {node: '>=0.10'}
     hasBin: true
 
+  plyr@3.8.4:
+    resolution: {integrity: sha512-DrzLbK9Wol3zeiuZCleD9aUOl0KAaBHR9H6WVVVYPZ4Ya+LYxUFTgSF1jooHcMQCv96Ws96wCaZzIoP3bES8pQ==}
+
   postcss-selector-parser@7.1.1:
     resolution: {integrity: sha512-orRsuYpJVw8LdAwqqLykBj9ecS5/cRHlI5+nvTo8LcCKmzDmqVORXtOIYEEQuL9D4BxtA1lm5isAqzQZCoQ6Eg==}
     engines: {node: '>=4'}
@@ -1400,6 +1428,9 @@ packages:
 
   queue-microtask@1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
+
+  rangetouch@2.0.1:
+    resolution: {integrity: sha512-sln+pNSc8NGaHoLzwNBssFSf/rSYkqeBXzX1AtJlkJiUaVSJSbRAWJk+4omsXkN+EJalzkZhWQ3th1m0FpR5xA==}
 
   read-package-json-fast@4.0.0:
     resolution: {integrity: sha512-qpt8EwugBWDw2cgE2W+/3oxC+KTez2uSVR8JU9Q36TXPAGCaozfQUs59v4j4GFpWTaw0i6hAZSvOmu1J0uOEUg==}
@@ -1527,6 +1558,9 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
+  url-polyfill@1.1.14:
+    resolution: {integrity: sha512-p4f3TTAG6ADVF3mwbXw7hGw+QJyw5CnNGvYh5fCuQQZIiuKUswqcznyV3pGDP9j0TSmC4UvRKm8kl1QsX1diiQ==}
+
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -1539,6 +1573,11 @@ packages:
     resolution: {integrity: sha512-7SpgZmU7R+dDnSmvXE1mfDtnHLHQSisdySVR7lO8ceAXvM0otZeuQQ6C8LrS5d/aYyP/QZ0hI0L+dIPrm4YlFQ==}
     peerDependencies:
       vite: ^2.6.0 || ^3.0.0 || ^4.0.0 || ^5.0.0-0 || ^6.0.0-0 || ^7.0.0-0
+
+  vite-node@5.2.0:
+    resolution: {integrity: sha512-7UT39YxUukIA97zWPXUGb0SGSiLexEGlavMwU3HDE6+d/HJhKLjLqu4eX2qv6SQiocdhKLRcusroDwXHQ6CnRQ==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    hasBin: true
 
   vite-plugin-inspect@11.3.3:
     resolution: {integrity: sha512-u2eV5La99oHoYPHE6UvbwgEqKKOQGz86wMg40CCosP6q8BkB6e5xPneZfYagK4ojPJSj5anHCrnvC20DpwVdRA==}
@@ -2432,6 +2471,8 @@ snapshots:
     dependencies:
       run-applescript: 7.1.0
 
+  cac@6.7.14: {}
+
   callsites@3.1.0: {}
 
   caniuse-lite@1.0.30001763: {}
@@ -2455,6 +2496,8 @@ snapshots:
     dependencies:
       is-what: 5.5.0
 
+  core-js@3.47.0: {}
+
   cross-spawn@7.0.6:
     dependencies:
       path-key: 3.1.1
@@ -2464,6 +2507,8 @@ snapshots:
   cssesc@3.0.0: {}
 
   csstype@3.2.3: {}
+
+  custom-event-polyfill@1.0.7: {}
 
   debug@4.4.3:
     dependencies:
@@ -2488,6 +2533,8 @@ snapshots:
   entities@7.0.0: {}
 
   error-stack-parser-es@1.0.5: {}
+
+  es-module-lexer@1.7.0: {}
 
   esbuild@0.27.2:
     optionalDependencies:
@@ -2797,6 +2844,8 @@ snapshots:
       lightningcss-win32-x64-msvc: 1.30.2
     optional: true
 
+  loadjs@4.3.0: {}
+
   locate-path@6.0.0:
     dependencies:
       p-locate: 5.0.0
@@ -2861,6 +2910,8 @@ snapshots:
     dependencies:
       boolbase: 1.0.0
 
+  obug@2.1.1: {}
+
   ohash@2.0.11: {}
 
   open@10.2.0:
@@ -2909,6 +2960,14 @@ snapshots:
 
   pidtree@0.6.0: {}
 
+  plyr@3.8.4:
+    dependencies:
+      core-js: 3.47.0
+      custom-event-polyfill: 1.0.7
+      loadjs: 4.3.0
+      rangetouch: 2.0.1
+      url-polyfill: 1.1.14
+
   postcss-selector-parser@7.1.1:
     dependencies:
       cssesc: 3.0.0
@@ -2935,6 +2994,8 @@ snapshots:
   punycode@2.3.1: {}
 
   queue-microtask@1.2.3: {}
+
+  rangetouch@2.0.1: {}
 
   read-package-json-fast@4.0.0:
     dependencies:
@@ -3069,6 +3130,8 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
+  url-polyfill@1.1.14: {}
+
   util-deprecate@1.0.2: {}
 
   vite-dev-rpc@1.1.0(vite@7.3.1(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)):
@@ -3080,6 +3143,26 @@ snapshots:
   vite-hot-client@2.1.0(vite@7.3.1(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)):
     dependencies:
       vite: 7.3.1(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)
+
+  vite-node@5.2.0(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2):
+    dependencies:
+      cac: 6.7.14
+      es-module-lexer: 1.7.0
+      obug: 2.1.1
+      pathe: 2.0.3
+      vite: 7.3.1(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)
+    transitivePeerDependencies:
+      - '@types/node'
+      - jiti
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - terser
+      - tsx
+      - yaml
 
   vite-plugin-inspect@11.3.3(vite@7.3.1(@types/node@24.10.4)(jiti@2.6.1)(lightningcss@1.30.2)):
     dependencies:

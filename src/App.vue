@@ -11,6 +11,7 @@ import VariablesSection from './components/sections/VariablesSection.vue'
 import TypographySection from './components/sections/TypographySection.vue'
 import ButtonsSection from './components/sections/ButtonsSection.vue'
 import InputsSection from './components/sections/InputsSection.vue'
+import PlayersSection from './components/sections/PlayersSection.vue'
 import IconsSection from './components/sections/IconsSection.vue'
 import FeaturedIconsSection from './components/sections/FeaturedIconsSection.vue'
 import SwitchesSection from './components/sections/SwitchesSection.vue'
@@ -488,6 +489,7 @@ onUnmounted(() => {
       <TypographySection @copy-html="handleCopyHtml" />
       <ButtonsSection @copy-html="handleCopyHtml" />
       <InputsSection @copy-html="handleCopyHtml" />
+      <PlayersSection @copy-html="handleCopyHtml" />
       <IconsSection @copy-html="handleCopyHtml" />
       <FeaturedIconsSection @copy-html="handleCopyHtml" />
       <SwitchesSection @copy-html="handleCopyHtml" />
@@ -498,4 +500,3 @@ onUnmounted(() => {
     <Toaster position="bottom-right" :duration="2000" />
   </div>
 </template>
-

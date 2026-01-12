@@ -3,14 +3,14 @@
 /* Weight 100 - Thin */
 @font-face {
   font-family: "Silka";
-  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-thin") format("woff2");
+  src: url("https://multibooks-tst.eduranga.pl/api/proxy?url=http://webserver/api/public-files/alias/alias/silka-thin.woff2") format("woff2");
   font-weight: 100;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Silka";
-  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-thin-italic") format("woff2");
+  src: url("https://multibooks-tst.eduranga.pl/api/proxy?url=http://webserver/api/public-files/alias/alias/silka-thin-italic.woff2") format("woff2");
   font-weight: 100;
   font-style: italic;
   font-display: swap;
@@ -19,14 +19,14 @@
 /* Weight 200 - Extra Light */
 @font-face {
   font-family: "Silka";
-  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-extra-light") format("woff2");
+  src: url("https://multibooks-tst.eduranga.pl/api/proxy?url=http://webserver/api/public-files/alias/alias/silka-extra-light.woff2") format("woff2");
   font-weight: 200;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Silka";
-  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-extra-light-italic") format("woff2");
+  src: url("https://multibooks-tst.eduranga.pl/api/proxy?url=http://webserver/api/public-files/alias/alias/silka-extra-light-italic.woff2") format("woff2");
   font-weight: 200;
   font-style: italic;
   font-display: swap;
@@ -35,14 +35,14 @@
 /* Weight 300 - Light */
 @font-face {
   font-family: "Silka";
-  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-light") format("woff2");
+  src: url("https://multibooks-tst.eduranga.pl/api/proxy?url=http://webserver/api/public-files/alias/alias/silka-light.woff2") format("woff2");
   font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Silka";
-  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-light-italic") format("woff2");
+  src: url("https://multibooks-tst.eduranga.pl/api/proxy?url=http://webserver/api/public-files/alias/alias/silka-light-italic.woff2") format("woff2");
   font-weight: 300;
   font-style: italic;
   font-display: swap;
@@ -51,14 +51,14 @@
 /* Weight 400 - Regular */
 @font-face {
   font-family: "Silka";
-  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-regular") format("woff2");
+  src: url("https://multibooks-tst.eduranga.pl/api/proxy?url=http://webserver/api/public-files/alias/alias/silka-regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Silka";
-  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-regular-italic") format("woff2");
+  src: url("https://multibooks-tst.eduranga.pl/api/proxy?url=http://webserver/api/public-files/alias/alias/silka-regular-italic.woff2") format("woff2");
   font-weight: 400;
   font-style: italic;
   font-display: swap;
@@ -67,14 +67,14 @@
 /* Weight 500 - Medium */
 @font-face {
   font-family: "Silka";
-  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-medium") format("woff2");
+  src: url("https://multibooks-tst.eduranga.pl/api/proxy?url=http://webserver/api/public-files/alias/alias/silka-medium.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Silka";
-  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-medium-italic") format("woff2");
+  src: url("https://multibooks-tst.eduranga.pl/api/proxy?url=http://webserver/api/public-files/alias/alias/silka-medium-italic.woff2") format("woff2");
   font-weight: 500;
   font-style: italic;
   font-display: swap;
@@ -83,14 +83,14 @@
 /* Weight 600 - Semi Bold */
 @font-face {
   font-family: "Silka";
-  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-semi-bold") format("woff2");
+  src: url("https://multibooks-tst.eduranga.pl/api/proxy?url=http://webserver/api/public-files/alias/alias/silka-semi-bold.woff2") format("woff2");
   font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Silka";
-  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-semi-bold-italic") format("woff2");
+  src: url("https://multibooks-tst.eduranga.pl/api/proxy?url=http://webserver/api/public-files/alias/alias/silka-semi-bold-italic.woff2") format("woff2");
   font-weight: 600;
   font-style: italic;
   font-display: swap;
@@ -99,14 +99,14 @@
 /* Weight 700 - Bold */
 @font-face {
   font-family: "Silka";
-  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-bold") format("woff2");
+  src: url("https://multibooks-tst.eduranga.pl/api/proxy?url=http://webserver/api/public-files/alias/alias/silka-bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Silka";
-  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-bold-italic") format("woff2");
+  src: url("https://multibooks-tst.eduranga.pl/api/proxy?url=http://webserver/api/public-files/alias/alias/silka-bold-italic.woff2") format("woff2");
   font-weight: 700;
   font-style: italic;
   font-display: swap;
@@ -115,14 +115,14 @@
 /* Weight 900 - Black */
 @font-face {
   font-family: "Silka";
-  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-black") format("woff2");
+  src: url("https://multibooks-tst.eduranga.pl/api/proxy?url=http://webserver/api/public-files/alias/alias/silka-black.woff2") format("woff2");
   font-weight: 900;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Silka";
-  src: url("https://multibooks-storage-tst.wsip-sa.workers.dev/api/public-files/alias/silka-black-italic") format("woff2");
+  src: url("https://multibooks-tst.eduranga.pl/api/proxy?url=http://webserver/api/public-files/alias/alias/silka-black-italic.woff2") format("woff2");
   font-weight: 900;
   font-style: italic;
   font-display: swap;

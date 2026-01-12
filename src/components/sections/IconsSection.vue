@@ -11,9 +11,11 @@ const emit = defineEmits<{
 <template>
   <DocsSection id="ikony" title="Ikony">
     <p class="section-intro">
-      Projekt uzywa biblioteki <a href="https://phosphoricons.com/" target="_blank" rel="noopener">Phosphor Icons</a>.
-      Pelna lista ikon dostepna na stronie projektu.
-      <a href="https://github.com/phosphor-icons/web" target="_blank" rel="noopener">Dokumentacja</a>.
+      Projekt uzywa biblioteki
+      <a href="https://phosphoricons.com/" target="_blank" rel="noopener">Phosphor Icons</a>. Pelna
+      lista ikon dostepna na stronie projektu.
+      <a href="https://github.com/phosphor-icons/web" target="_blank" rel="noopener">Dokumentacja</a
+      >.
     </p>
 
     <DocsSubsection
@@ -42,7 +44,7 @@ const emit = defineEmits<{
     <DocsSubsection
       id="ikony-wagi"
       title="Wagi ikon"
-      description="Phosphor oferuje 6 wag: <code>ph</code> (regular), <code>ph-thin</code>, <code>ph-light</code>, <code>ph-bold</code>, <code>ph-fill</code>, <code>ph-duotone</code>."
+      description="Phosphor oferuje 6 wag: <code>ph</code> (regular), <code>ph-thin</code>, <code>ph-light</code>, <code>ph-bold</code>, <code>ph-fill</code>, <code>ph-duotone</code>. Kazda waga wymaga osobnego pliku CSS, np. <code>https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css</code>. Dostepne koncowki: <code>/thin/style.css</code>, <code>/light/style.css</code>, <code>/regular/style.css</code>, <code>/bold/style.css</code>, <code>/fill/style.css</code>, <code>/duotone/style.css</code>."
     >
       <DocsExample
         @copy="emit('copyHtml')"
