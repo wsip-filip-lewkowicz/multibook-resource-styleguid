@@ -34,6 +34,7 @@ export const cssConfig: BundleConfig = {
     'radios.css',
     'switches.css',
     'featured-icons.css',
+    'headers.css',
   ],
   standalone: ['players.css'],
   globalOutput: 'styles-[hash].css',
