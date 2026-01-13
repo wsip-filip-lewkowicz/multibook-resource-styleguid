@@ -28,6 +28,52 @@ const buildGlobal = args.length === 0 || args.includes('--global')
 const buildStandalone = args.length === 0 || args.includes('--standalone')
 
 /**
+ * Clean up old CSS files before building
+ */
+/**
+ * Clean up old CSS files before building
+ */
+function cleanupOldFiles(cleanGlobal: boolean, cleanStandalone: boolean): void {
+  if (!existsSync(DIST)) {
+    return
+  }
+
+  const files = readdirSync(DIST)
+
+  // Remove old global bundle files (styles-[hash].css)
+  if (cleanGlobal) {
+    const globalPattern = /^styles-[A-Za-z0-9]+\.css$/
+    files.forEach((file) => {
+      if (globalPattern.test(file)) {
+        const filePath = resolve(DIST, file)
+        try {
+          unlinkSync(filePath)
+          console.log(`   🗑️  Removed old file: ${file}`)
+        } catch (err) {
+          console.warn(`   ⚠️  Failed to remove ${file}:`, err)
+        }
+      }
+    })
+  }
+
+  // Remove standalone files
+  if (cleanStandalone) {
+    cssConfig.standalone.forEach((file) => {
+      const outputName = basename(file, '.css') + '.css'
+      const filePath = resolve(DIST, outputName)
+      if (existsSync(filePath)) {
+        try {
+          unlinkSync(filePath)
+          console.log(`   🗑️  Removed old file: ${outputName}`)
+        } catch (err) {
+          console.warn(`   ⚠️  Failed to remove ${outputName}:`, err)
+        }
+      }
+    })
+  }
+}
+
+/**
  * Generate temporary bundle CSS content from global files
  */
 function generateBundleCss(): string {
@@ -48,6 +94,9 @@ async function buildGlobalBundle(): Promise<void> {
 
   console.log(`\n📦 Building global CSS bundle`)
   console.log(`   Files: ${cssConfig.global.join(', ')}`)
+
+  // Clean up old global bundle files
+  cleanupOldFiles(true, false)
 
   // Generate temporary bundle file (don't overwrite src/styles/index.css)
   const bundleContent = generateBundleCss()
@@ -102,6 +151,9 @@ async function buildStandaloneFiles(): Promise<void> {
   }
 
   console.log(`\n📦 Building standalone CSS files`)
+
+  // Clean up old standalone files
+  cleanupOldFiles(false, true)
 
   // Ensure dist exists
   if (!existsSync(DIST)) {
