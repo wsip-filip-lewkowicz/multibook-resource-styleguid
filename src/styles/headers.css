@@ -7,10 +7,8 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding: 1.5rem;
   position: relative;
   width: 100%;
-  box-sizing: border-box;
 }
 
 /* ============================================
@@ -41,10 +39,11 @@
    ============================================ */
 .c-header__close {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: -8px;
+  right: -8px;
 }
 
 .c-header__close > i {
   line-height: 1;
 }
+
