@@ -15,7 +15,7 @@
    HEADER ICON
    Uses featured icon component internally
    ============================================ */
-.c-header__icon {
+.c-header-icon {
   flex-shrink: 0;
 }
 
@@ -23,12 +23,12 @@
    HEADER CONTENT
    Title text area - grows to fill space
    ============================================ */
-.c-header__content {
+.c-header-content {
   flex: 1;
   min-width: 0;
 }
 
-.c-header__title {
+.c-header-title {
   margin: 0;
   color: var(--color-gray-900);
 }
@@ -37,13 +37,13 @@
    HEADER CLOSE BUTTON
    Positioned absolutely in top-right corner
    ============================================ */
-.c-header__close {
+.c-header-close {
   position: absolute;
   top: -8px;
   right: -8px;
 }
 
-.c-header__close > i {
+.c-header-close > i {
   line-height: 1;
 }
 
