@@ -55,11 +55,16 @@ const emit = defineEmits<{
     <DocsSubsection
       id="sdk-keyboard"
       title="Obsluga klawiatury ekranowej"
-      description="Aplikacja nadrzedna moze wysylac eventy o nacisnieciu klawiszy na klawiaturze ekranowej. Aby je odbierac, uzyj metody <code>sdk.on()</code>."
+      description="Mozesz zarzadzac klawiatura ekranowa poprzez emitowanie eventow do aplikacji nadrzednej oraz nasluchiwanie na nacisniecia klawiszy."
     >
       <div class="docs-code">
         <pre><code>import { sdk } from '@/sdk'
 
+// Sterowanie klawiatura
+sdk.emit('keyboardOpen', {})   // Otworz klawiature ekranowa
+sdk.emit('keyboardClose', {})  // Zamknij klawiature ekranowa
+
+// Nasluchiwanie na nacisniecia klawiszy
 sdk.on('keyboardPressed', ({ key }) => {
   console.log('Nacisnieto klawisz:', key)
 })</code></pre>
@@ -72,6 +77,8 @@ sdk.on('keyboardPressed', ({ key }) => {
       <ul>
         <li><code>data-page="N"</code> - emituje <code>goToPage</code> z numerem strony</li>
         <li><code>data-modal-close</code> - emituje <code>closeModal</code></li>
+        <li><code>keyboardOpen</code> - zadanie otwarcia klawiatury ekranowej</li>
+        <li><code>keyboardClose</code> - zadanie zamkniecia klawiatury ekranowej</li>
       </ul>
       <p class="docs-info-subtitle">parent → iframe:</p>
       <ul>
