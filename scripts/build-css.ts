@@ -2,7 +2,7 @@
  * CSS Build Script
  *
  * Builds CSS files according to bundle-config.ts:
- * - Global files → dist/styles.css (concatenated)
+ * - Global files → dist/styles-[hash].css (concatenated with content hash)
  * - Standalone files → dist/{filename}.css (individual)
  *
  * Usage:
@@ -14,7 +14,7 @@
 import { build } from 'vite'
 import { resolve, dirname, basename } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { writeFileSync, unlinkSync, mkdirSync, existsSync } from 'node:fs'
+import { writeFileSync, unlinkSync, mkdirSync, existsSync, readdirSync } from 'node:fs'
 import { cssConfig } from './bundle-config.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -44,7 +44,9 @@ async function buildGlobalBundle(): Promise<void> {
     return
   }
 
-  console.log(`\n📦 Building global CSS bundle → dist/${cssConfig.globalOutput}`)
+  const hasHash = cssConfig.globalOutput.includes('[hash]')
+
+  console.log(`\n📦 Building global CSS bundle`)
   console.log(`   Files: ${cssConfig.global.join(', ')}`)
 
   // Generate temporary bundle file (don't overwrite src/styles/index.css)
@@ -62,12 +64,24 @@ async function buildGlobalBundle(): Promise<void> {
         rollupOptions: {
           input: tempBundlePath,
           output: {
-            assetFileNames: () => cssConfig.globalOutput,
+            assetFileNames: cssConfig.globalOutput,
           },
         },
       },
     })
-    console.log(`   ✓ dist/${cssConfig.globalOutput}`)
+
+    // Find the actual generated filename
+    if (hasHash && existsSync(DIST)) {
+      const regex = new RegExp('^' + cssConfig.globalOutput.replace('[hash]', '[A-Za-z0-9]+') + '$')
+      const files = readdirSync(DIST).filter((f) => regex.test(f))
+      if (files.length > 0) {
+        console.log(`   ✓ dist/${files[files.length - 1]}`)
+      } else {
+        console.log(`   ✓ dist/${cssConfig.globalOutput}`)
+      }
+    } else {
+      console.log(`   ✓ dist/${cssConfig.globalOutput}`)
+    }
   } finally {
     // Clean up temp file
     try {

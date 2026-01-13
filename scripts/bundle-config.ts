@@ -36,7 +36,7 @@ export const cssConfig: BundleConfig = {
     'featured-icons.css',
   ],
   standalone: ['players.css'],
-  globalOutput: 'styles.css',
+  globalOutput: 'styles-[hash].css',
 }
 
 /**
@@ -48,5 +48,5 @@ export const cssConfig: BundleConfig = {
 export const jsConfig: BundleConfig = {
   global: [],
   standalone: ['audio-player.ts', 'video-player.ts'],
-  globalOutput: 'scripts.js',
+  globalOutput: 'scripts-[hash].js',
 }
