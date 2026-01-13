@@ -16,6 +16,8 @@ import InputsSection from './components/sections/InputsSection.vue'
 import PlayersSection from './components/sections/PlayersSection.vue'
 import IconsSection from './components/sections/IconsSection.vue'
 import FeaturedIconsSection from './components/sections/FeaturedIconsSection.vue'
+import HeadersSection from './components/sections/HeadersSection.vue'
+import SdkSection from './components/sections/SdkSection.vue'
 import SwitchesSection from './components/sections/SwitchesSection.vue'
 import CheckboxesSection from './components/sections/CheckboxesSection.vue'
 import RadioSection from './components/sections/RadioSection.vue'
@@ -82,6 +84,8 @@ onUnmounted(() => {
       <PlayersSection @copy-html="handleCopyHtml" />
       <IconsSection @copy-html="handleCopyHtml" />
       <FeaturedIconsSection @copy-html="handleCopyHtml" />
+      <HeadersSection @copy-html="handleCopyHtml" />
+      <SdkSection @copy-html="handleCopyHtml" />
       <SwitchesSection @copy-html="handleCopyHtml" />
       <CheckboxesSection @copy-html="handleCopyHtml" />
       <RadioSection @copy-html="handleCopyHtml" />

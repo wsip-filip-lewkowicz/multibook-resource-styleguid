@@ -1,0 +1,50 @@
+/* ============================================
+   HEADER
+   Component for modal/section headers with
+   featured icon, title text, and close button
+   ============================================ */
+.c-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ============================================
+   HEADER ICON
+   Uses featured icon component internally
+   ============================================ */
+.c-header__icon {
+  flex-shrink: 0;
+}
+
+/* ============================================
+   HEADER CONTENT
+   Title text area - grows to fill space
+   ============================================ */
+.c-header__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.c-header__title {
+  margin: 0;
+  color: var(--color-gray-900);
+}
+
+/* ============================================
+   HEADER CLOSE BUTTON
+   Positioned absolutely in top-right corner
+   ============================================ */
+.c-header__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.c-header__close > i {
+  line-height: 1;
+}

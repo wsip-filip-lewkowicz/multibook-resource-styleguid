@@ -159,5 +159,6 @@ const emit = defineEmits<{
         <button class="c-btn c-btn-md c-btn-primary-ghost" disabled>Ghost</button>
       </DocsExample>
     </DocsSubsection>
-  </DocsSection>
+
+    </DocsSection>
 </template>

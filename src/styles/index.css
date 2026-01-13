@@ -1,4 +1,3 @@
-@import './fonts.css';
 @import './variables.css';
 @import './typography.css';
 @import './buttons.css';
@@ -7,4 +6,5 @@
 @import './radios.css';
 @import './switches.css';
 @import './featured-icons.css';
+@import './headers.css';
 @import './players.css';

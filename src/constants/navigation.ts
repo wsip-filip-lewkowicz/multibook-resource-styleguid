@@ -11,6 +11,8 @@ export const navItems: NavItem[] = [
   { id: 'odtwarzacze', label: 'Odtwarzacze' },
   { id: 'ikony', label: 'Ikony' },
   { id: 'featured-icons', label: 'Ikony wyroznione' },
+  { id: 'headers', label: 'Naglowki' },
+  { id: 'sdk', label: 'Atrybuty SDK' },
   { id: 'switche', label: 'Switch' },
   { id: 'checkboxy', label: 'Checkbox' },
   { id: 'radio', label: 'Radio' },
