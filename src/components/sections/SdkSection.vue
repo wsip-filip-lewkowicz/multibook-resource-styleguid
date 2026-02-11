@@ -2,6 +2,7 @@
 import DocsSection from '../DocsSection.vue'
 import DocsSubsection from '../DocsSubsection.vue'
 import DocsExample from '../DocsExample.vue'
+import DocsCode from '../DocsCode.vue'
 
 const emit = defineEmits<{
   copyHtml: []
@@ -10,6 +11,16 @@ const emit = defineEmits<{
 
 <template>
   <DocsSection id="sdk" title="Atrybuty SDK">
+    <div class="docs-info docs-info-intro">
+      <p><strong>SDK automatycznie:</strong></p>
+      <ul>
+        <li>emituje <code>ready</code> po zaladowaniu iframe</li>
+        <li>bindowanie klikniecia dla <code>data-page</code> -> <code>goToPage</code></li>
+        <li>bindowanie klikniecia dla <code>data-modal-close</code> -> <code>closeModal</code></li>
+        <li>bindowanie klikniecia dla <code>data-tool-id</code> -> <code>toolClicked</code></li>
+      </ul>
+    </div>
+
     <DocsSubsection
       id="sdk-page"
       title="Nawigacja do strony"
@@ -53,12 +64,28 @@ const emit = defineEmits<{
     </DocsSubsection>
 
     <DocsSubsection
+      id="sdk-tool-id"
+      title="Klikniecie narzedzia"
+      description="Dodaj atrybut <code>data-tool-id</code>, aby klikniecie emitowalo event <code>toolClicked</code> z narzedziem znalezionym po ID (z payloadu <code>init</code>)."
+    >
+      <DocsExample
+        @copy="emit('copyHtml')"
+        :code="`<button class='c-btn c-btn-md c-btn-primary' data-tool-id='1'>
+  Otworz narzedzie #1
+</button>`"
+      >
+        <button class="c-btn c-btn-md c-btn-primary" data-tool-id="1">Otworz narzedzie #1</button>
+      </DocsExample>
+    </DocsSubsection>
+
+    <DocsSubsection
       id="sdk-keyboard"
       title="Obsluga klawiatury ekranowej"
       description="Mozesz zarzadzac klawiatura ekranowa poprzez emitowanie eventow do aplikacji nadrzednej oraz nasluchiwanie na nacisniecia klawiszy."
     >
-      <div class="docs-code">
-        <pre><code>import { sdk } from '@/sdk'
+      <DocsCode
+        language="javascript"
+        :code="`import { sdk } from '@/sdk'
 
 // Sterowanie klawiatura
 sdk.emit('keyboardOpen', {})   // Otworz klawiature ekranowa
@@ -67,46 +94,52 @@ sdk.emit('keyboardClose', {})  // Zamknij klawiature ekranowa
 // Nasluchiwanie na nacisniecia klawiszy
 sdk.on('keyboardPressed', ({ key }) => {
   console.log('Nacisnieto klawisz:', key)
-})</code></pre>
-      </div>
+})`"
+      />
+    </DocsSubsection>
+
+    <DocsSubsection
+      id="sdk-init-drag"
+      title="Init i drag autoscroll"
+      description="Parent moze przeslac event <code>init</code> z lista narzedzi i spisem tresci. Dla dragowania w iframe uzyj eventu <code>dragAutoscroll</code>."
+    >
+      <DocsCode
+        language="javascript"
+        :code="`// parent -> iframe
+sdk.on('init', ({ tools, table_of_content }) => {
+  console.log('Init:', tools, table_of_content)
+})
+
+// iframe -> parent
+sdk.emit('dragAutoscroll', { phase: 'start', clientY: 320 })
+sdk.emit('dragAutoscroll', { phase: 'move', clientY: 300 })
+sdk.emit('dragAutoscroll', { phase: 'end', clientY: 280 })`"
+      />
     </DocsSubsection>
 
     <div class="docs-info">
       <p><strong>Podsumowanie eventow:</strong></p>
       <p class="docs-info-subtitle">iframe → parent:</p>
       <ul>
+        <li><code>ready</code> - iframe zaladowany i gotowy</li>
         <li><code>data-page="N"</code> - emituje <code>goToPage</code> z numerem strony</li>
         <li><code>data-modal-close</code> - emituje <code>closeModal</code></li>
+        <li><code>data-tool-id="N"</code> - emituje <code>toolClicked</code> z obiektem narzedzia</li>
+        <li><code>exerciseCompleted</code> - oznaczenie ukonczenia cwiczenia</li>
         <li><code>keyboardOpen</code> - zadanie otwarcia klawiatury ekranowej</li>
         <li><code>keyboardClose</code> - zadanie zamkniecia klawiatury ekranowej</li>
+        <li><code>dragAutoscroll</code> - { phase, clientY } dla autoscrollu modala w parent</li>
       </ul>
       <p class="docs-info-subtitle">parent → iframe:</p>
       <ul>
         <li><code>keyboardPressed</code> - { key: string } - klawisz z klawiatury ekranowej</li>
+        <li><code>init</code> - { tools, table_of_content } - dane startowe dla iframe</li>
       </ul>
     </div>
   </DocsSection>
 </template>
 
 <style scoped>
-.docs-code {
-  background: var(--color-gray-900);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  overflow-x: auto;
-}
-
-.docs-code pre {
-  margin: 0;
-}
-
-.docs-code code {
-  color: var(--color-gray-100);
-  font-size: 0.8125rem;
-  font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
-  line-height: 1.6;
-}
-
 .docs-info {
   margin-top: 1rem;
   padding: 1rem;
@@ -115,6 +148,10 @@ sdk.on('keyboardPressed', ({ key }) => {
   border-radius: 0.5rem;
   font-size: 0.875rem;
   color: var(--color-gray-700);
+}
+
+.docs-info-intro {
+  margin-bottom: 1rem;
 }
 
 .docs-info p {

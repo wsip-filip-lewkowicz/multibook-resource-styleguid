@@ -2,6 +2,21 @@ html {
   font-family: var(--font-family);
 }
 
+.font-sans {
+  font-family:
+    var(
+      --font-family,
+      "Silka",
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      sans-serif
+    );
+}
+
 /* Display sizes */
 .t-2xl {
   font-size: 4.5rem;

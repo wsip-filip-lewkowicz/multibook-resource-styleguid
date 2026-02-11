@@ -90,6 +90,21 @@ const emit = defineEmits<{
         </div>
       </DocsExample>
     </DocsSubsection>
+
+    <DocsSubsection
+      id="typo-font-family"
+      title="Font Family Helper"
+      description="Klasa <code>.font-sans</code> wymusza font z tokena <code>--font-family</code> i posiada fallback systemowy."
+    >
+      <DocsExample
+        @copy="emit('copyHtml')"
+        :code="`<p class='t-body-m font-sans'>Tekst z wymuszonym fontem sans.</p>`"
+      >
+        <div class="typography-stack">
+          <p class="t-body-m font-sans">Tekst z wymuszonym fontem sans.</p>
+        </div>
+      </DocsExample>
+    </DocsSubsection>
   </DocsSection>
 </template>
 
