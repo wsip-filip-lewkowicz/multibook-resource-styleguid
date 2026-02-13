@@ -117,6 +117,108 @@ sdk.emit('dragAutoscroll', { phase: 'end', clientY: 280 })`"
       />
     </DocsSubsection>
 
+    <DocsSubsection
+      id="sdk-viewport-metrics"
+      title="Parent viewport variables (viewportMetrics)"
+      description="Event <code>viewportMetrics</code> jest wysylany z parenta do iframe przez kanal <code>multibook:event</code>. SDK normalizuje payload, fallbackuje brakujace pola do lokalnego <code>window</code>/<code>visualViewport</code>, zapisuje snapshot w <code>window.__parentViewport</code> i ustawia CSS variables na <code>:root</code>. W local dev (bez parenta) metryki odswiezaja sie na <code>resize</code>, <code>orientationchange</code> i eventach <code>visualViewport</code>."
+    >
+      <div class="docs-info docs-info-tight">
+        <p><strong>Co oznaczaja pola:</strong></p>
+        <ul>
+          <li><code>w/h</code> (<code>width</code>, <code>height</code>) - viewport parenta</li>
+          <li>
+            <code>iw/ih</code> (<code>innerWidth</code>, <code>innerHeight</code>) - parent
+            <code>innerWidth/innerHeight</code>
+          </li>
+          <li>
+            <code>vw/vh</code> (<code>visualWidth</code>, <code>visualHeight</code>) - parent
+            <code>visualViewport</code>
+          </li>
+          <li>
+            <code>left/top</code> (<code>offsetLeft</code>, <code>offsetTop</code>) -
+            przesuniecie <code>visualViewport</code>
+          </li>
+          <li><code>scale</code> - poziom zoom</li>
+          <li><code>ts</code> (<code>timestamp</code>) - czas pomiaru (ms)</li>
+        </ul>
+      </div>
+
+      <div class="docs-info docs-info-tight">
+        <p><strong>CSS variables (krotkie, preferowane):</strong></p>
+        <ul>
+          <li><code>--vp-w</code>, <code>--vp-h</code></li>
+          <li><code>--vp-iw</code>, <code>--vp-ih</code></li>
+          <li><code>--vp-vw</code>, <code>--vp-vh</code></li>
+          <li><code>--vp-left</code>, <code>--vp-top</code></li>
+          <li><code>--vp-scale</code></li>
+          <li><code>--vp-ts</code></li>
+        </ul>
+      </div>
+
+      <div class="docs-info docs-info-tight">
+        <p><strong>CSS variables (aliasy):</strong></p>
+        <ul>
+          <li><code>--parent-viewport-width</code>, <code>--parent-viewport-height</code></li>
+          <li>
+            <code>--parent-viewport-inner-width</code>,
+            <code>--parent-viewport-inner-height</code>
+          </li>
+          <li>
+            <code>--parent-viewport-visual-width</code>,
+            <code>--parent-viewport-visual-height</code>
+          </li>
+          <li>
+            <code>--parent-viewport-offset-left</code>,
+            <code>--parent-viewport-offset-top</code>
+          </li>
+          <li><code>--parent-viewport-scale</code></li>
+          <li><code>--parent-viewport-timestamp</code></li>
+        </ul>
+        <p class="docs-info-note">
+          Format: wymiary i offsety sa w <code>px</code>, a <code>scale</code> i
+          <code>timestamp</code> sa liczbami bez <code>px</code>.
+        </p>
+      </div>
+
+      <DocsCode
+        language="css"
+        :code="`/* Cheat sheet */
+/* 100vh parenta */ .x { height: var(--vp-h); }
+/* 100vw parenta */ .x { width: var(--vp-w); }
+/* Mobile keyboard-safe */ .x { height: var(--vp-vh); }
+/* Fullscreen minus header 64px */ .x { min-height: calc(var(--vp-vh) - 64px); }
+/* Sticky footer offset */ .x { bottom: max(0px, calc(var(--vp-h) - var(--vp-vh) - var(--vp-top))); }
+
+/* Fullscreen container based on parent viewport */
+.iframe-fullscreen {
+  width: var(--vp-w);
+  min-height: var(--vp-vh);
+}
+
+/* Modal body that never exceeds parent visual viewport */
+.iframe-modal-body {
+  max-height: calc(var(--vp-vh) - 32px);
+  overflow: auto;
+}
+
+/* Scroll area safe for zoom/keyboard on mobile */
+.iframe-safe-scroll {
+  height: calc(var(--vp-vh) - var(--vp-top));
+  overflow-y: auto;
+}`"
+      />
+
+      <DocsCode
+        language="javascript"
+        :code="`const { visualHeight, scale } = window.__parentViewport
+console.log('visualHeight:', visualHeight, 'scale:', scale)
+
+sdk.on('viewportMetrics', (metrics) => {
+  console.log('Updated parent viewport metrics:', metrics)
+})`"
+      />
+    </DocsSubsection>
+
     <div class="docs-info">
       <p><strong>Podsumowanie eventow:</strong></p>
       <p class="docs-info-subtitle">iframe → parent:</p>
@@ -134,6 +236,7 @@ sdk.emit('dragAutoscroll', { phase: 'end', clientY: 280 })`"
       <ul>
         <li><code>keyboardPressed</code> - { key: string } - klawisz z klawiatury ekranowej</li>
         <li><code>init</code> - { tools, table_of_content } - dane startowe dla iframe</li>
+        <li><code>viewportMetrics</code> - metryki viewportu parenta + aktualizacja CSS variables</li>
       </ul>
     </div>
   </DocsSection>
@@ -154,6 +257,10 @@ sdk.emit('dragAutoscroll', { phase: 'end', clientY: 280 })`"
   margin-bottom: 1rem;
 }
 
+.docs-info-tight {
+  margin-top: 0.75rem;
+}
+
 .docs-info p {
   margin-bottom: 0.5rem;
 }
@@ -162,6 +269,11 @@ sdk.emit('dragAutoscroll', { phase: 'end', clientY: 280 })`"
   margin-top: 0.75rem;
   font-weight: 500;
   color: var(--color-gray-600);
+}
+
+.docs-info-note {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
 }
 
 .docs-info ul {
