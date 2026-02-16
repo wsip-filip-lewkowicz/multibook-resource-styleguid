@@ -39,7 +39,7 @@
   }
 }
 
-.c-header-content > {
+.c-header-content > * {
   font-size: 1.125rem;
   line-height: 1.45;
   letter-spacing: -0.01em;
