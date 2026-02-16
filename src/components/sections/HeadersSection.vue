@@ -31,7 +31,7 @@ const emit = defineEmits<{
   </button>
 </div>`"
       >
-        <div class="c-header" style="background: white; border-radius: 1rem;">
+        <div class="c-header">
           <div class="c-header-icon">
             <div class="c-featured-icon c-featured-icon--brand c-featured-icon--l">
               <i class="ph ph-puzzle-piece"></i>
