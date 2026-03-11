@@ -1,4 +1,4 @@
-const PUBLIC_FILES_BASE = '%VITE_PROXY_URL%/api/public-files/'
+const PUBLIC_FILES_BASE = '%VITE_STORAGE_URL%/api/public-files/alias/'
 
 const withPublicBase = (path: string) => `${PUBLIC_FILES_BASE}${path.replace(/^\/+/, '')}`
 

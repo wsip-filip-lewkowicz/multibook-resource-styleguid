@@ -236,8 +236,8 @@ Playery wymagają biblioteki [Plyr](https://plyr.io/) załadowanej przed skrypta
 <script src="https://cdn.plyr.io/3.7.8/plyr.js"></script>
 
 <!-- 4. Skrypty playerów -->
-<script src="path/to/audio-player.js"></script>
-<script src="path/to/video-player.js"></script>
+<script src="%VITE_STORAGE_URL%/api/public-files/alias/audio-player.js"></script>
+<script src="%VITE_STORAGE_URL%/api/public-files/alias/video-player.js"></script>
 
 <!-- 5. Inicjalizacja -->
 <script>
