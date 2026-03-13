@@ -13,9 +13,9 @@ defineProps<{
       {{ title }}
     </h3>
     <h3 v-else class="docs-subsection-title">{{ title }}</h3>
-    <p v-if="$slots.description" class="docs-subsection-description">
+    <div v-if="$slots.description" class="docs-subsection-description">
       <slot name="description" />
-    </p>
+    </div>
     <p v-else-if="description" class="docs-subsection-description" v-html="description"></p>
     <slot />
   </div>
@@ -44,6 +44,14 @@ defineProps<{
   line-height: 1.5;
 }
 
+.docs-subsection-description :deep(p) {
+  margin: 0 0 0.75rem;
+}
+
+.docs-subsection-description :deep(p:last-child) {
+  margin-bottom: 0;
+}
+
 .docs-subsection-description :deep(code) {
   background: var(--color-gray-100);
   color: var(--color-error-600);
@@ -51,6 +59,14 @@ defineProps<{
   border-radius: 0.25rem;
   font-size: 0.8125rem;
   font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
+}
+
+.docs-subsection-description :deep(pre code) {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  border-radius: 0;
+  font-size: inherit;
 }
 
 .docs-subsection-anchor {

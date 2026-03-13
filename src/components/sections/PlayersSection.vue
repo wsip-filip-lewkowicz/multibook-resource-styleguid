@@ -30,6 +30,53 @@ const setupCode = computed(
   videoPlayer.initVideoPlayers();
 <\/script>`,
 )
+
+const videoPlayerMarkupApiCode = computed(
+  () => `<!-- HTML -->
+<div
+  class='c-video-player'
+  data-video-player
+  data-player-id='hero'
+  data-plyr-config='{"autoplay":true,"muted":true,"clickToPlay":false}'
+>
+  <video poster='${Links.VIDEO_POSTER}' preload='metadata'>
+    <source src='${Links.VIDEO_SAMPLE}' type='video/mp4'>
+  </video>
+</div>`,
+)
+
+const videoPlayerJsApiCode = `// JS
+videoPlayer.initVideoPlayers(document, {
+  getOptions: (container) => {
+    if (container.dataset.playerId === 'hero') {
+      return {
+        controls: ['play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
+      }
+    }
+
+    return {}
+  },
+  onInit: ({ player, container }) => {
+    if (container.dataset.playerId !== 'hero') {
+      return
+    }
+
+    player.on('play', () => {
+      console.log('Video wystartowalo')
+    })
+
+    player.on('ended', () => {
+      console.log('Video zakonczone')
+    })
+  },
+})
+
+const heroPlayer = videoPlayer.getVideoPlayer('[data-player-id="hero"]')
+
+if (heroPlayer) {
+  heroPlayer.currentTime = 15
+  heroPlayer.play()
+}`
 </script>
 
 <template>
@@ -102,6 +149,30 @@ const setupCode = computed(
           </video>
         </div>
       </DocsExample>
+    </DocsSubsection>
+
+    <DocsSubsection id="video-player-api" title="API Plyr per player">
+      <template #description>
+        <p>
+          Kazdy kontener moze miec wlasny config Plyr przez atrybut
+          <code>data-plyr-config</code> z JSON-em. Konfiguracja jest mergowana z domyslnym configiem
+          playera oraz z opcjami przekazanymi do <code>videoPlayer.initVideoPlayers()</code>.
+        </p>
+        <p>
+          Do pelnego API Plyr uzyj <code>onInit</code> oraz
+          <code>videoPlayer.getVideoPlayer()</code>. W <code>onInit</code> dostajesz instancje
+          konkretnego playera, wiec mozesz podpinac eventy Plyr przez
+          <code>player.on('ended')</code>, <code>player.on('play')</code> itd. oraz wywolywac metody
+          typu <code>play()</code>, <code>pause()</code> czy ustawiac <code>currentTime</code>,
+          <code>autoplay</code> i pozostale opcje / wlasciwosci Plyr.
+        </p>
+        <p>
+          Jesli potrzebujesz hooka inicjalizacyjnego, uzyj <code>onInit</code>. To najpewniejsze
+          miejsce na logike startowa dla konkretnego playera.
+        </p>
+        <DocsCode :code="videoPlayerMarkupApiCode" />
+        <DocsCode :code="videoPlayerJsApiCode" language="javascript" />
+      </template>
     </DocsSubsection>
   </DocsSection>
 </template>

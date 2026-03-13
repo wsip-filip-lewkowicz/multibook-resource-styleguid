@@ -87,6 +87,20 @@ function createTitleBar(title: string): HTMLDivElement {
 // ============================================
 
 type PlyrInstance = InstanceType<typeof Plyr>
+type VideoPlayerTarget = string | HTMLElement | null | undefined
+
+type UnknownRecord = Record<string, unknown>
+
+export interface VideoPlayerContext {
+  player: PlyrInstance
+  container: HTMLElement
+}
+
+export interface VideoPlayersInitConfig {
+  options?: Partial<PlyrOptions>
+  getOptions?: (container: HTMLElement) => Partial<PlyrOptions> | undefined
+  onInit?: (context: VideoPlayerContext) => void
+}
 
 // Extended HTMLElement with player instance storage
 interface VideoPlayerContainer extends HTMLElement {
@@ -101,12 +115,110 @@ interface VideoPlayerInstance {
   destroy: () => void
 }
 
+function isPlainObject(value: unknown): value is UnknownRecord {
+  return Object.prototype.toString.call(value) === '[object Object]'
+}
+
+function mergeInto(target: UnknownRecord, source: UnknownRecord): UnknownRecord {
+  Object.entries(source).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      target[key] = [...value]
+      return
+    }
+
+    if (isPlainObject(value)) {
+      const base = isPlainObject(target[key]) ? (target[key] as UnknownRecord) : {}
+      target[key] = mergeInto({ ...base }, value)
+      return
+    }
+
+    target[key] = value
+  })
+
+  return target
+}
+
+function mergePlyrOptions(...sources: Array<Partial<PlyrOptions> | undefined>): PlyrOptions {
+  return sources.reduce<UnknownRecord>((result, source) => {
+    if (!source) {
+      return result
+    }
+
+    return mergeInto(result, source as UnknownRecord)
+  }, {}) as PlyrOptions
+}
+
+function isVideoPlayersInitConfig(
+  config: Partial<PlyrOptions> | VideoPlayersInitConfig,
+): config is VideoPlayersInitConfig {
+  return 'options' in config || 'getOptions' in config || 'onInit' in config
+}
+
+function normalizeInitConfig(
+  config: Partial<PlyrOptions> | VideoPlayersInitConfig = {},
+): Required<Pick<VideoPlayersInitConfig, 'options'>> & Omit<VideoPlayersInitConfig, 'options'> {
+  if (isVideoPlayersInitConfig(config)) {
+    return {
+      options: config.options ?? {},
+      getOptions: config.getOptions,
+      onInit: config.onInit,
+    }
+  }
+
+  return {
+    options: config,
+  }
+}
+
+function parseDataOptions(container: HTMLElement): Partial<PlyrOptions> {
+  const rawConfig = container.dataset.plyrConfig
+
+  if (!rawConfig) {
+    return {}
+  }
+
+  try {
+    const parsed = JSON.parse(rawConfig)
+
+    if (!isPlainObject(parsed)) {
+      console.warn('[video-player] data-plyr-config must be a JSON object:', container)
+      return {}
+    }
+
+    return parsed as Partial<PlyrOptions>
+  } catch {
+    console.warn('[video-player] Invalid JSON in data-plyr-config:', container)
+    return {}
+  }
+}
+
+function resolveVideoPlayerContainer(
+  target: VideoPlayerTarget,
+  root: Document | Element = document,
+): VideoPlayerContainer | null {
+  if (!target) {
+    return null
+  }
+
+  if (typeof target === 'string') {
+    const element = root.querySelector<HTMLElement>(target)
+    return resolveVideoPlayerContainer(element)
+  }
+
+  if (target.matches('[data-video-player]')) {
+    return target as VideoPlayerContainer
+  }
+
+  return target.closest<VideoPlayerContainer>('[data-video-player]')
+}
+
 /**
  * Initializes a single video player with all features
  */
 function initVideoPlayer(
   container: HTMLElement,
   options: Partial<PlyrOptions> = {},
+  onInit?: (context: VideoPlayerContext) => void,
 ): VideoPlayerInstance | null {
   const target = container.querySelector('video')
 
@@ -116,10 +228,7 @@ function initVideoPlayer(
   }
 
   // Merge options
-  const mergedOptions: PlyrOptions = {
-    ...DEFAULT_OPTIONS,
-    ...options,
-  }
+  const mergedOptions = mergePlyrOptions(DEFAULT_OPTIONS, options)
 
   // Initialize Plyr
   const player = new Plyr(target, mergedOptions)
@@ -195,6 +304,11 @@ function initVideoPlayer(
     titleBar.classList.add('is-visible')
   }
 
+  onInit?.({
+    player,
+    container,
+  })
+
   // ============================================
   // CLEANUP
   // ============================================
@@ -251,8 +365,9 @@ function initVideoPlayer(
  */
 export const initVideoPlayers = (
   root: Document | Element = document,
-  options: Partial<PlyrOptions> = {},
+  config: Partial<PlyrOptions> | VideoPlayersInitConfig = {},
 ): PlyrInstance[] => {
+  const normalizedConfig = normalizeInitConfig(config)
   const containers = Array.from(root.querySelectorAll<VideoPlayerContainer>('[data-video-player]'))
   const players: PlyrInstance[] = []
 
@@ -263,7 +378,15 @@ export const initVideoPlayers = (
     }
     container.dataset.videoPlayerInit = 'true'
 
-    const instance = initVideoPlayer(container, options)
+    const instance = initVideoPlayer(
+      container,
+      mergePlyrOptions(
+        normalizedConfig.options,
+        parseDataOptions(container),
+        normalizedConfig.getOptions?.(container),
+      ),
+      normalizedConfig.onInit,
+    )
     if (instance) {
       players.push(instance.player)
 
@@ -273,6 +396,14 @@ export const initVideoPlayers = (
   })
 
   return players
+}
+
+export const getVideoPlayer = (
+  target: VideoPlayerTarget,
+  root: Document | Element = document,
+): PlyrInstance | null => {
+  const container = resolveVideoPlayerContainer(target, root)
+  return container?.__videoPlayerInstance?.player ?? null
 }
 
 /**
