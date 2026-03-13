@@ -45,6 +45,49 @@ const videoPlayerMarkupApiCode = computed(
 </div>`,
 )
 
+const audioPlayerMarkupApiCode = `<!-- HTML -->
+<div
+  class='c-audio-player'
+  data-audio-player
+  data-player-id='podcast'
+  data-plyr-config='{"autoplay":false,"muted":false}'
+>
+  <audio src='/audio/audio.mp3' preload='metadata'></audio>
+</div>`
+
+const audioPlayerJsApiCode = `// JS
+audioPlayer.initAudioPlayers(document, {
+  getOptions: (container) => {
+    if (container.dataset.playerId === 'podcast') {
+      return {
+        controls: ['play', 'progress', 'current-time', 'mute', 'volume'],
+      }
+    }
+
+    return {}
+  },
+  onInit: ({ player, container }) => {
+    if (container.dataset.playerId !== 'podcast') {
+      return
+    }
+
+    player.on('play', () => {
+      console.log('Audio wystartowalo')
+    })
+
+    player.on('ended', () => {
+      console.log('Audio zakonczone')
+    })
+  },
+})
+
+const podcastPlayer = audioPlayer.getAudioPlayer('[data-player-id="podcast"]')
+
+if (podcastPlayer) {
+  podcastPlayer.currentTime = 30
+  podcastPlayer.play()
+}`
+
 const videoPlayerJsApiCode = `// JS
 videoPlayer.initVideoPlayers(document, {
   getOptions: (container) => {
@@ -106,6 +149,30 @@ if (heroPlayer) {
           <audio src="/audio/audio.mp3" preload="metadata"></audio>
         </div>
       </DocsExample>
+    </DocsSubsection>
+
+    <DocsSubsection id="audio-player-api" title="API Plyr per player dla audio">
+      <template #description>
+        <p>
+          Kazdy kontener audio moze miec wlasny config Plyr przez atrybut
+          <code>data-plyr-config</code> z JSON-em. Konfiguracja jest mergowana z domyslnym configiem
+          playera oraz z opcjami przekazanymi do <code>audioPlayer.initAudioPlayers()</code>.
+        </p>
+        <p>
+          Do pelnego API Plyr uzyj <code>onInit</code> oraz
+          <code>audioPlayer.getAudioPlayer()</code>. W <code>onInit</code> dostajesz instancje
+          konkretnego playera, wiec mozesz podpinac eventy Plyr przez
+          <code>player.on('ended')</code>, <code>player.on('play')</code> itd. oraz wywolywac metody
+          typu <code>play()</code>, <code>pause()</code> czy ustawiac <code>currentTime</code>,
+          <code>autoplay</code> i pozostale opcje / wlasciwosci Plyr.
+        </p>
+        <p>
+          Jesli potrzebujesz hooka inicjalizacyjnego, uzyj <code>onInit</code>. To najpewniejsze
+          miejsce na logike startowa dla konkretnego playera.
+        </p>
+        <DocsCode :code="audioPlayerMarkupApiCode" />
+        <DocsCode :code="audioPlayerJsApiCode" language="javascript" />
+      </template>
     </DocsSubsection>
 
     <DocsSubsection id="video-player" title="Odtwarzacz video (plik)">
