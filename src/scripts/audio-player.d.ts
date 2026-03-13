@@ -13,7 +13,10 @@ export interface AudioPlayersInitConfig {
   options?: Partial<PlyrOptions>
   getOptions?: (container: HTMLElement) => Partial<PlyrOptions> | undefined
   onInit?: (context: AudioPlayerContext) => void
+  autoplay?: boolean
 }
+
+export function attemptAutoplay(player: PlyrInstance): void
 
 export function initAudioPlayers(
   root?: Document | HTMLElement,

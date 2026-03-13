@@ -12,25 +12,22 @@ const examplePlayerConfig = {
   autoplay: true,
   muted: true,
   controls: ['play', 'progress', 'current-time', 'mute', 'volume'],
+  storage: {
+    enabled: false,
+  },
 }
 
 const exampleCode = `<div
+  id="example-audio-player"
   class="c-audio-player"
   data-audio-player
   data-plyr-config='${JSON.stringify(examplePlayerConfig)}'
 >
-  <audio src="/audio/audio.mp3" preload="auto" autoplay muted></audio>
+  <audio src="/audio/audio.mp3" preload="auto"></audio>
 </div>
 
 <script>
-  audioPlayer.initAudioPlayers(document, {
-    onInit: ({ player }) => {
-      player.once('ready', () => {
-        player.muted = true
-        void Promise.resolve(player.play()).catch(() => {})
-      })
-    },
-  })
+  audioPlayer.initAudioPlayers()
 </script>`
 
 const exampleAudioPlayer = document.getElementById('example-audio-player')
@@ -62,11 +59,4 @@ if (copyExampleCodeButton) {
   })
 }
 
-initAudioPlayers(document, {
-  onInit: ({ player }) => {
-    player.once('ready', () => {
-      player.muted = true
-      void Promise.resolve(player.play()).catch(() => {})
-    })
-  },
-})
+initAudioPlayers(document, { autoplay: true })

@@ -88,6 +88,21 @@ if (podcastPlayer) {
   podcastPlayer.play()
 }`
 
+const audioPlayerAutoplayCode = `// Autoplay (muted) — dziala w Chrome, Firefox i Safari
+audioPlayer.initAudioPlayers(document, {
+  autoplay: true,
+})
+
+// Mozna tez uzyc attemptAutoplay() recznie na konkretnym playerze:
+const player = audioPlayer.getAudioPlayer('#my-player')
+if (player) {
+  audioPlayer.attemptAutoplay(player)
+}
+
+// Autoplay mozna tez ustawic per-player przez data-plyr-config:
+// data-plyr-config='{"autoplay":true}'
+// Wtedy wystarczy samo: audioPlayer.initAudioPlayers()`
+
 const videoPlayerJsApiCode = `// JS
 videoPlayer.initVideoPlayers(document, {
   getOptions: (container) => {
@@ -172,6 +187,27 @@ if (heroPlayer) {
         </p>
         <DocsCode :code="audioPlayerMarkupApiCode" />
         <DocsCode :code="audioPlayerJsApiCode" language="javascript" />
+      </template>
+    </DocsSubsection>
+
+    <DocsSubsection id="audio-player-autoplay" title="Autoplay (muted)">
+      <template #description>
+        <p>
+          Uzyj opcji <code>autoplay: true</code> w <code>initAudioPlayers()</code> albo ustaw
+          <code>"autoplay":true</code> w <code>data-plyr-config</code> aby automatycznie
+          odtworzyc audio po zaladowaniu strony.
+        </p>
+        <p>
+          Audio zawsze startuje wyciszone (<code>muted</code>). W Firefox odtwarzanie rusza od razu.
+          W Chrome i Safari przegladarki blokuja autoplay audio nawet z muted &mdash; w takim
+          przypadku player automatycznie czeka na pierwsza interakcje uzytkownika (klikniecie,
+          tap lub klawisz) i dopiero wtedy startuje odtwarzanie.
+        </p>
+        <p>
+          Mozna tez uzyc <code>audioPlayer.attemptAutoplay(player)</code> recznie na konkretnej
+          instancji.
+        </p>
+        <DocsCode :code="audioPlayerAutoplayCode" language="javascript" />
       </template>
     </DocsSubsection>
 

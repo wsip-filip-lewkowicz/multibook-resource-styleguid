@@ -19,6 +19,7 @@ export interface AudioPlayersInitConfig {
   options?: Partial<PlyrOptions>
   getOptions?: (container: HTMLElement) => Partial<PlyrOptions> | undefined
   onInit?: (context: AudioPlayerContext) => void
+  autoplay?: boolean
 }
 
 // Extended HTMLElement with player instance storage
@@ -62,7 +63,7 @@ function mergePlyrOptions(...sources: Array<Partial<PlyrOptions> | undefined>): 
 function isAudioPlayersInitConfig(
   config: Partial<PlyrOptions> | AudioPlayersInitConfig,
 ): config is AudioPlayersInitConfig {
-  return 'options' in config || 'getOptions' in config || 'onInit' in config
+  return 'options' in config || 'getOptions' in config || 'onInit' in config || 'autoplay' in config
 }
 
 function normalizeInitConfig(
@@ -73,6 +74,7 @@ function normalizeInitConfig(
       options: config.options ?? {},
       getOptions: config.getOptions,
       onInit: config.onInit,
+      autoplay: config.autoplay,
     }
   }
 
@@ -144,8 +146,88 @@ const DEFAULT_OPTIONS: PlyrOptions = {
 }
 
 // ============================================
+// AUTOPLAY
+// ============================================
+
+function shouldAutoplay(
+  normalizedConfig: ReturnType<typeof normalizeInitConfig>,
+  plyrOptions: PlyrOptions,
+): boolean {
+  if (normalizedConfig.autoplay) {
+    return true
+  }
+
+  return (plyrOptions as Record<string, unknown>).autoplay === true
+}
+
+function stripAutoplayFromOptions(options: PlyrOptions): PlyrOptions {
+  const copy = { ...options } as Record<string, unknown>
+  delete copy.autoplay
+  return copy as PlyrOptions
+}
+
+function startMutedPlayback(media: HTMLMediaElement, player: PlyrInstance): void {
+  media.muted = true
+  media.setAttribute('muted', '')
+  player.muted = true
+
+  const doPlay = () => {
+    media.muted = true
+    const result = media.play()
+    if (result) {
+      result.catch((err) => {
+        if (err.name === 'NotAllowedError') {
+          waitForInteraction(media, player)
+        }
+      })
+    }
+  }
+
+  if (media.readyState < 2) {
+    media.addEventListener('canplay', doPlay, { once: true })
+    media.load()
+    return
+  }
+
+  doPlay()
+}
+
+const INTERACTION_EVENTS = ['click', 'touchstart', 'keydown'] as const
+
+function waitForInteraction(media: HTMLMediaElement, player: PlyrInstance): void {
+  const handler = () => {
+    INTERACTION_EVENTS.forEach((evt) => document.removeEventListener(evt, handler, true))
+    media.muted = true
+    player.muted = true
+    const result = media.play()
+    if (result) {
+      result.catch(() => {})
+    }
+  }
+
+  INTERACTION_EVENTS.forEach((evt) =>
+    document.addEventListener(evt, handler, { once: true, capture: true }),
+  )
+}
+
+// ============================================
 // PUBLIC API
 // ============================================
+
+/**
+ * Attempts muted autoplay on a Plyr instance.
+ * Chrome requires the native media element to have muted=true
+ * set programmatically right before calling play().
+ */
+export const attemptAutoplay = (player: PlyrInstance): void => {
+  const media = player.media as HTMLMediaElement | undefined
+  if (!media) {
+    return
+  }
+
+  player.muted = true
+  startMutedPlayback(media, player)
+}
 
 /**
  * Initializes all audio players in the given root element
@@ -174,20 +256,49 @@ export const initAudioPlayers = (
       return
     }
 
-    const player = new Plyr(
-      audio,
-      mergePlyrOptions(
-        DEFAULT_OPTIONS,
-        normalizedConfig.options,
-        parseDataOptions(container),
-        normalizedConfig.getOptions?.(container),
-      ),
+    const mergedOptions = mergePlyrOptions(
+      DEFAULT_OPTIONS,
+      normalizedConfig.options,
+      parseDataOptions(container),
+      normalizedConfig.getOptions?.(container),
     )
+
+    const wantsAutoplay = shouldAutoplay(normalizedConfig, mergedOptions)
+    const finalOptions = wantsAutoplay ? stripAutoplayFromOptions(mergedOptions) : mergedOptions
+
+    // Pre-set muted on native element before Plyr init so Chrome
+    // does not consume and block the autoplay gesture
+    if (wantsAutoplay) {
+      audio.muted = true
+      audio.setAttribute('muted', '')
+    }
+
+    const player = new Plyr(audio, finalOptions)
 
     players.push(player)
 
     // Store instance for potential cleanup
     container.__audioPlayerInstance = player
+
+    if (wantsAutoplay) {
+      let started = false
+
+      const doAutoplay = () => {
+        if (started) {
+          return
+        }
+        started = true
+        attemptAutoplay(player)
+      }
+
+      player.on('ready', doAutoplay)
+
+      const media = player.media as HTMLMediaElement | undefined
+      if (media) {
+        media.addEventListener('canplay', doAutoplay, { once: true })
+        media.addEventListener('loadeddata', doAutoplay, { once: true })
+      }
+    }
 
     normalizedConfig.onInit?.({
       player,
