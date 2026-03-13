@@ -1,0 +1,201 @@
+.example-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 2rem 4rem;
+}
+
+.example-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--color-gray-200);
+}
+
+.example-back-link {
+  display: inline-flex;
+  margin-bottom: 1rem;
+  color: var(--color-brand-700);
+  text-decoration: underline;
+  font-size: 0.9375rem;
+  font-weight: 500;
+}
+
+.example-description {
+  margin-top: 0.5rem;
+  color: var(--color-gray-600);
+  font-size: 1rem;
+}
+
+.example-content {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.example-card {
+  background: white;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 16px 40px rgba(17, 24, 39, 0.06);
+}
+
+.example-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.example-card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-gray-900);
+  margin-bottom: 0.5rem;
+}
+
+.example-card-description {
+  margin-bottom: 1rem;
+  color: var(--color-gray-600);
+}
+
+.example-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.example-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 999px;
+  background: var(--color-brand-50);
+  color: var(--color-brand-700);
+  border: 1px solid rgba(0, 90, 190, 0.12);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.example-card-description code {
+  background: var(--color-gray-100);
+  color: var(--color-error-600);
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.8125rem;
+  font-family: 'SF Mono', 'Monaco', 'Menlo', 'Consolas', monospace;
+}
+
+.example-player-shell {
+  max-width: 720px;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  background:
+    radial-gradient(circle at top right, rgba(0, 90, 190, 0.08), transparent 32%),
+    linear-gradient(180deg, #f8fbff 0%, #ffffff 100%);
+  border: 1px solid rgba(0, 90, 190, 0.12);
+}
+
+.example-player-eyebrow {
+  margin-bottom: 0.75rem;
+  color: var(--color-brand-700);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.example-audio-player {
+  max-width: 640px;
+}
+
+.example-audio-player .plyr--audio {
+  padding: 1rem 1rem 0.875rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(0, 90, 190, 0.14);
+  background: white;
+  box-shadow: 0 10px 24px rgba(0, 90, 190, 0.08);
+}
+
+.example-audio-player .plyr__controls {
+  gap: 0.5rem;
+}
+
+.example-audio-player .plyr__control {
+  border-radius: 999px;
+}
+
+.example-audio-player .plyr__progress {
+  margin-right: 0.5rem;
+}
+
+.example-audio-player .plyr__volume {
+  min-width: 112px;
+}
+
+.example-player-note {
+  margin-top: 0.875rem;
+  color: var(--color-gray-600);
+  font-size: 0.875rem;
+}
+
+.example-code-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.example-copy-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.5rem;
+  padding: 0.625rem 1rem;
+  border: 1px solid var(--color-brand-700);
+  border-radius: 0.625rem;
+  background: var(--color-brand-700);
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.example-copy-button:hover {
+  transform: translateY(-1px);
+}
+
+.example-code-block {
+  margin: 0;
+  padding: 1rem 1.25rem;
+  border-radius: 1rem;
+  background: #111827;
+  color: #e5e7eb;
+  overflow-x: auto;
+  font-size: 0.875rem;
+  line-height: 1.65;
+}
+
+.example-code-block code {
+  font-family:
+    'Fira Code', 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+@media (max-width: 640px) {
+  .example-page {
+    padding-inline: 1rem;
+  }
+
+  .example-card,
+  .example-player-shell {
+    padding: 1rem;
+  }
+
+  .example-copy-button {
+    width: 100%;
+  }
+}

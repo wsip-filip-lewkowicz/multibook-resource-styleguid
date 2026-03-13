@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <title>Styleguide - Audio Example</title>
+  </head>
+  <body>
+    <div class="example-page">
+      <header class="example-header">
+        <a class="example-back-link" href="./">← Wroc do styleguide</a>
+        <h1 class="app-title">Audio Example</h1>
+        <p class="example-description">
+          Osobna strona z przykladem audio playera z autoplay oraz gotowym kodem do skopiowania.
+        </p>
+      </header>
+
+      <main class="example-content">
+        <section class="example-card">
+          <div class="example-card-header">
+            <div>
+              <h2 class="example-card-title">Audio player z autoplay</h2>
+              <p class="example-card-description">
+                Player korzysta z <code>data-plyr-config</code> i ustawia
+                <code>autoplay: true</code>. Przyklad startuje w trybie <code>muted</code>, bo
+                przegladarki zwykle blokuja autoplay audio z dzwiekiem bez interakcji uzytkownika.
+              </p>
+            </div>
+
+            <div class="example-badges" aria-label="Konfiguracja playera">
+              <span class="example-badge">Autoplay</span>
+              <span class="example-badge">Muted start</span>
+              <span class="example-badge">Volume controls</span>
+            </div>
+          </div>
+
+          <div class="example-player-shell">
+            <div class="example-player-eyebrow">Podcast example</div>
+            <div
+              id="example-audio-player"
+              class="c-audio-player example-audio-player"
+              data-audio-player
+              data-plyr-config='{"autoplay":true,"muted":true,"controls":["play","progress","current-time","mute","volume"]}'
+            >
+              <audio src="/audio/audio.mp3" preload="auto" autoplay muted></audio>
+            </div>
+            <p class="example-player-note">
+              Po starcie uzyj kontrolki glosnosci lub przycisku mute, aby wlaczyc dzwiek.
+            </p>
+          </div>
+        </section>
+
+        <section class="example-card">
+          <div class="example-code-header">
+            <div>
+              <h2 class="example-card-title">Kod przykladu</h2>
+              <p class="example-card-description">
+                Ten snippet odpowiada konfiguracji uzytej na tej stronie i mozesz go skopiowac.
+              </p>
+            </div>
+
+            <button id="copy-example-code" class="example-copy-button" type="button">
+              Kopiuj kod
+            </button>
+          </div>
+
+          <pre class="example-code-block language-markup"><code id="example-code"></code></pre>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="/src/example.ts"></script>
+  </body>
+</html>

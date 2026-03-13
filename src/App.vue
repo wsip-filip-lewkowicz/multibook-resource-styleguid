@@ -71,7 +71,10 @@ onUnmounted(() => {
 <template>
   <div class="app">
     <header class="app-header">
-      <h1 class="app-title">Styleguide</h1>
+      <div class="app-header-row">
+        <h1 class="app-title">Styleguide</h1>
+        <a class="app-header-link" href="./example.html">Example</a>
+      </div>
     </header>
 
     <AppSidebar :active-section />
