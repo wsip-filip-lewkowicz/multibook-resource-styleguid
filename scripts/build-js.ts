@@ -107,6 +107,7 @@ async function buildGlobalBundle(): Promise<void> {
 
   try {
     await build({
+      configFile: false,
       root: ROOT,
       logLevel: 'warn',
       build: {
@@ -167,6 +168,7 @@ async function buildStandaloneFiles(): Promise<void> {
     console.log(`   Building ${file} → dist/${outputName}.js`)
 
     await build({
+      configFile: false,
       root: ROOT,
       logLevel: 'warn',
       build: {
