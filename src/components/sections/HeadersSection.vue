@@ -38,7 +38,7 @@ const emit = defineEmits<{
             </div>
           </div>
           <div class="c-header-content">
-            <h2 class="c-header-title t-h2 t-font-medium">Przyporządkuj opisy badań do nazw nauk przyrodniczych</h2>
+            <h2 class="c-header-title t-h2 t-font-medium">Przyporządkuj opisy badań do nazw nauk przyrodniczych. Przyporządkuj opisy badań do nazw nauk przyrodniczych Przyporządkuj opisy badań do nazw nauk przyrodniczych</h2>
           </div>
           <button type="button" class="c-header-close c-btn c-btn-icon c-btn-md c-btn-tertiary-ghost" data-modal-close>
             <i class="ph-bold ph-x"></i>
