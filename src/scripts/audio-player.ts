@@ -129,19 +129,28 @@ function resolveAudioPlayerContainer(
 // CONSTANTS
 // ============================================
 
-const DEFAULT_CONTROLS = ['play', 'progress', 'current-time'] as const
+const DEFAULT_CONTROLS = [
+  'play',
+  'progress',
+  'current-time',
+  'mute',
+  'volume',
+] as const
 
 const DEFAULT_I18N: PlyrOptions['i18n'] = {
   play: 'Odtwórz',
   pause: 'Pauza',
   currentTime: 'Obecny czas',
   duration: 'Czas trwania',
+  volume: 'Głośność',
+  mute: 'Wycisz',
+  unmute: 'Wyłącz wyciszenie',
 }
 
 const DEFAULT_OPTIONS: PlyrOptions = {
   controls: [...DEFAULT_CONTROLS],
   invertTime: true,
-  toggleInvert: true,
+  displayDuration: false,
   i18n: DEFAULT_I18N,
 }
 
