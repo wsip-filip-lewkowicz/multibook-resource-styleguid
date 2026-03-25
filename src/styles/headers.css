@@ -30,19 +30,15 @@
 }
 
 .c-header-title {
-  margin: 0;
+  margin: 8px 0 0;
 }
 
 body .c-header-content > * {
-  font-size: 1.125rem !important;
   line-height: 1.45 !important;
   letter-spacing: -0.01em !important;
   font-weight: 500 !important;
   color: var(--color-gray-900) !important;
-  
-  @media screen and (min-width: 1024px) {
-    font-size: 1.375rem !important;
-  }
+  font-size: 1.375rem !important;
 }
 
 
