@@ -20,6 +20,19 @@
   flex-shrink: 0;
 }
 
+.c-header-icon .c-featured-icon {
+  --c-featured-icon-size: 24px;
+  --c-featured-icon-icon-size: 12px;
+  --c-featured-icon-fg: var(--color-brand-700);
+}
+
+@media (min-width: 40rem) {
+  .c-header-icon .c-featured-icon {
+    --c-featured-icon-size: 48px;
+    --c-featured-icon-icon-size: 24px;
+  }
+}
+
 /* ============================================
    HEADER CONTENT
    Title text area - grows to fill space
@@ -27,18 +40,29 @@
 .c-header-content {
   flex: 1;
   min-width: 0;
+  overflow-wrap: break-word;
 }
 
 .c-header-title {
-  margin: 8px 0 0;
+  margin: 0;
 }
 
 body .c-header-content > * {
-  line-height: 1.45 !important;
-  letter-spacing: -0.01em !important;
+  overflow-wrap: break-word;
+  padding-top: 1px;
   font-weight: 500 !important;
   color: var(--color-gray-900) !important;
-  font-size: 1.375rem !important;
+  font-size: 0.875rem !important;
+  line-height: 1.43 !important;
+  letter-spacing: -0.01em !important;
+}
+
+@media (min-width: 40rem) {
+  body .c-header-content > * {
+    padding-top: 0.625rem;
+    font-size: 1.125rem !important;
+    line-height: 1.56 !important;
+  }
 }
 
 
