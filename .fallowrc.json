@@ -1,0 +1,10 @@
+{
+  "$schema": "https://fallow.tools/schema/config.json",
+  "entry": ["src/scripts/audio-player.ts", "src/scripts/video-player.ts"],
+  "duplicates": {
+    "ignore": ["**/*.d.ts"]
+  },
+  "health": {
+    "maxCrap": 200
+  }
+}

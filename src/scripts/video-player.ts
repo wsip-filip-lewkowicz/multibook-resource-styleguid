@@ -1,5 +1,6 @@
 import * as PlyrModule from 'plyr'
 import type { Options as PlyrOptions } from 'plyr'
+import { mergePlyrOptions, parseDataOptions } from './plyr-utils.js'
 
 // Handle different module export formats
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -89,8 +90,6 @@ function createTitleBar(title: string): HTMLDivElement {
 type PlyrInstance = InstanceType<typeof Plyr>
 type VideoPlayerTarget = string | HTMLElement | null | undefined
 
-type UnknownRecord = Record<string, unknown>
-
 export interface VideoPlayerContext {
   player: PlyrInstance
   container: HTMLElement
@@ -115,39 +114,6 @@ interface VideoPlayerInstance {
   destroy: () => void
 }
 
-function isPlainObject(value: unknown): value is UnknownRecord {
-  return Object.prototype.toString.call(value) === '[object Object]'
-}
-
-function mergeInto(target: UnknownRecord, source: UnknownRecord): UnknownRecord {
-  Object.entries(source).forEach(([key, value]) => {
-    if (Array.isArray(value)) {
-      target[key] = [...value]
-      return
-    }
-
-    if (isPlainObject(value)) {
-      const base = isPlainObject(target[key]) ? (target[key] as UnknownRecord) : {}
-      target[key] = mergeInto({ ...base }, value)
-      return
-    }
-
-    target[key] = value
-  })
-
-  return target
-}
-
-function mergePlyrOptions(...sources: Array<Partial<PlyrOptions> | undefined>): PlyrOptions {
-  return sources.reduce<UnknownRecord>((result, source) => {
-    if (!source) {
-      return result
-    }
-
-    return mergeInto(result, source as UnknownRecord)
-  }, {}) as PlyrOptions
-}
-
 function isVideoPlayersInitConfig(
   config: Partial<PlyrOptions> | VideoPlayersInitConfig,
 ): config is VideoPlayersInitConfig {
@@ -167,28 +133,6 @@ function normalizeInitConfig(
 
   return {
     options: config,
-  }
-}
-
-function parseDataOptions(container: HTMLElement): Partial<PlyrOptions> {
-  const rawConfig = container.dataset.plyrConfig
-
-  if (!rawConfig) {
-    return {}
-  }
-
-  try {
-    const parsed = JSON.parse(rawConfig)
-
-    if (!isPlainObject(parsed)) {
-      console.warn('[video-player] data-plyr-config must be a JSON object:', container)
-      return {}
-    }
-
-    return parsed as Partial<PlyrOptions>
-  } catch {
-    console.warn('[video-player] Invalid JSON in data-plyr-config:', container)
-    return {}
   }
 }
 
@@ -212,43 +156,12 @@ function resolveVideoPlayerContainer(
   return target.closest<VideoPlayerContainer>('[data-video-player]')
 }
 
-/**
- * Initializes a single video player with all features
- */
-function initVideoPlayer(
+function createVideoPlayerHandlers(
   container: HTMLElement,
-  options: Partial<PlyrOptions> = {},
-  onInit?: (context: VideoPlayerContext) => void,
-): VideoPlayerInstance | null {
-  const target = container.querySelector('video')
-
-  if (!target) {
-    console.warn('[video-player] No video element found in container:', container)
-    return null
-  }
-
-  // Merge options
-  const mergedOptions = mergePlyrOptions(DEFAULT_OPTIONS, options)
-
-  // Initialize Plyr
-  const player = new Plyr(target, mergedOptions)
-
-  // Create overlay elements
-  const playBtn = createPlayButton()
-  container.appendChild(playBtn)
-
-  const title = container.dataset.title
-  const titleBar = title ? createTitleBar(title) : null
-  if (titleBar) {
-    container.appendChild(titleBar)
-  }
-
-  // State tracking for seeking
+  player: PlyrInstance,
+  titleBar: HTMLDivElement | null,
+) {
   let isCurrentlySeeking = false
-
-  // ============================================
-  // EVENT HANDLERS
-  // ============================================
 
   const handlePlay = () => {
     container.classList.add('is-playing')
@@ -288,42 +201,50 @@ function initVideoPlayer(
     player.play()
   }
 
-  // Attach event listeners
-  player.on('play', handlePlay)
-  player.on('pause', handlePause)
-  player.on('ended', handleEnded)
-  player.on('controlsshown', handleControlsShown)
-  player.on('controlshidden', handleControlsHidden)
-  player.on('seeking', handleSeeking)
-  player.on('timeupdate', handleTimeUpdate)
-
-  playBtn.addEventListener('click', handlePlayBtnClick)
-
-  // Initial state - show title bar
-  if (titleBar) {
-    titleBar.classList.add('is-visible')
+  return {
+    handlePlay,
+    handlePause,
+    handleEnded,
+    handleControlsShown,
+    handleControlsHidden,
+    handleSeeking,
+    handleTimeUpdate,
+    handlePlayBtnClick,
   }
+}
 
-  onInit?.({
-    player,
-    container,
-  })
+function attachVideoPlayerEvents(
+  player: PlyrInstance,
+  playBtn: HTMLButtonElement,
+  handlers: ReturnType<typeof createVideoPlayerHandlers>,
+): void {
+  player.on('play', handlers.handlePlay)
+  player.on('pause', handlers.handlePause)
+  player.on('ended', handlers.handleEnded)
+  player.on('controlsshown', handlers.handleControlsShown)
+  player.on('controlshidden', handlers.handleControlsHidden)
+  player.on('seeking', handlers.handleSeeking)
+  player.on('timeupdate', handlers.handleTimeUpdate)
+  playBtn.addEventListener('click', handlers.handlePlayBtnClick)
+}
 
-  // ============================================
-  // CLEANUP
-  // ============================================
-
-  const destroy = () => {
+function createVideoPlayerDestroy(
+  player: PlyrInstance,
+  playBtn: HTMLButtonElement,
+  titleBar: HTMLDivElement | null,
+  handlers: ReturnType<typeof createVideoPlayerHandlers>,
+): () => void {
+  return () => {
     try {
-      player.off('play', handlePlay)
-      player.off('pause', handlePause)
-      player.off('ended', handleEnded)
-      player.off('controlsshown', handleControlsShown)
-      player.off('controlshidden', handleControlsHidden)
-      player.off('seeking', handleSeeking)
-      player.off('timeupdate', handleTimeUpdate)
+      player.off('play', handlers.handlePlay)
+      player.off('pause', handlers.handlePause)
+      player.off('ended', handlers.handleEnded)
+      player.off('controlsshown', handlers.handleControlsShown)
+      player.off('controlshidden', handlers.handleControlsHidden)
+      player.off('seeking', handlers.handleSeeking)
+      player.off('timeupdate', handlers.handleTimeUpdate)
 
-      playBtn.removeEventListener('click', handlePlayBtnClick)
+      playBtn.removeEventListener('click', handlers.handlePlayBtnClick)
       playBtn.remove()
       titleBar?.remove()
 
@@ -332,13 +253,45 @@ function initVideoPlayer(
       // Ignore cleanup errors
     }
   }
+}
+
+function initVideoPlayer(
+  container: HTMLElement,
+  options: Partial<PlyrOptions> = {},
+  onInit?: (context: VideoPlayerContext) => void,
+): VideoPlayerInstance | null {
+  const target = container.querySelector('video')
+
+  if (!target) {
+    console.warn('[video-player] No video element found in container:', container)
+    return null
+  }
+
+  const player = new Plyr(target, mergePlyrOptions(DEFAULT_OPTIONS, options))
+  const playBtn = createPlayButton()
+  container.appendChild(playBtn)
+
+  const title = container.dataset.title
+  const titleBar = title ? createTitleBar(title) : null
+  if (titleBar) {
+    container.appendChild(titleBar)
+    titleBar.classList.add('is-visible')
+  }
+
+  const handlers = createVideoPlayerHandlers(container, player, titleBar)
+  attachVideoPlayerEvents(player, playBtn, handlers)
+
+  onInit?.({
+    player,
+    container,
+  })
 
   return {
     player,
     container,
     playBtn,
     titleBar,
-    destroy,
+    destroy: createVideoPlayerDestroy(player, playBtn, titleBar, handlers),
   }
 }
 
@@ -382,7 +335,7 @@ export const initVideoPlayers = (
       container,
       mergePlyrOptions(
         normalizedConfig.options,
-        parseDataOptions(container),
+        parseDataOptions(container, 'video-player'),
         normalizedConfig.getOptions?.(container),
       ),
       normalizedConfig.onInit,

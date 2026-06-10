@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue'
 import Prism from 'prismjs'
 import 'prism-themes/themes/prism-atom-dark.css'
+import { formatHtmlCode } from '@/utils/formatHtmlCode'
 
 const props = withDefaults(
   defineProps<{
@@ -24,43 +25,13 @@ function toggleCode() {
 }
 
 function copyCode() {
-  const formattedCode = formatCode(props.code)
+  const formattedCode = formatHtmlCode(props.code)
   navigator.clipboard.writeText(formattedCode)
   emit('copy', formattedCode)
 }
 
-function formatCode(code: string): string {
-  // Format HTML with proper indentation
-  let formatted = ''
-  let indent = 0
-  const lines = code
-    .split('\n')
-    .map((l) => l.trim())
-    .filter((l) => l.length > 0)
-
-  for (const line of lines) {
-    // Check if line starts with closing tag
-    if (line.match(/^<\//)) {
-      indent = Math.max(0, indent - 1)
-    }
-
-    formatted += '  '.repeat(indent) + line + '\n'
-
-    // Check if line has opening tag (not self-closing, not closing)
-    if (line.match(/^<[a-z]/) && !line.match(/\/>$/) && !line.match(/<\/[^>]+>$/)) {
-      indent++
-    }
-    // If line has both opening and closing on same line, don't change indent
-    if (line.match(/^<[a-z]/) && line.match(/<\/[^>]+>$/)) {
-      // no change
-    }
-  }
-
-  return formatted.trim()
-}
-
 const highlightedCode = computed(() => {
-  const formatted = formatCode(props.code)
+  const formatted = formatHtmlCode(props.code)
   return Prism.highlight(formatted, Prism.languages.markup!, 'markup')
 })
 </script>

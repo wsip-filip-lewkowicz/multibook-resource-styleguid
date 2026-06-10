@@ -1,5 +1,6 @@
 import * as PlyrModule from 'plyr'
 import type { Options as PlyrOptions } from 'plyr'
+import { mergePlyrOptions, parseDataOptions } from './plyr-utils.js'
 
 // Handle different module export formats
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -7,8 +8,6 @@ const Plyr = (PlyrModule as any).default ?? (PlyrModule as any)
 
 type PlyrInstance = InstanceType<typeof Plyr>
 type AudioPlayerTarget = string | HTMLElement | null | undefined
-
-type UnknownRecord = Record<string, unknown>
 
 export interface AudioPlayerContext {
   player: PlyrInstance
@@ -25,39 +24,6 @@ export interface AudioPlayersInitConfig {
 // Extended HTMLElement with player instance storage
 interface AudioPlayerContainer extends HTMLElement {
   __audioPlayerInstance?: PlyrInstance
-}
-
-function isPlainObject(value: unknown): value is UnknownRecord {
-  return Object.prototype.toString.call(value) === '[object Object]'
-}
-
-function mergeInto(target: UnknownRecord, source: UnknownRecord): UnknownRecord {
-  Object.entries(source).forEach(([key, value]) => {
-    if (Array.isArray(value)) {
-      target[key] = [...value]
-      return
-    }
-
-    if (isPlainObject(value)) {
-      const base = isPlainObject(target[key]) ? (target[key] as UnknownRecord) : {}
-      target[key] = mergeInto({ ...base }, value)
-      return
-    }
-
-    target[key] = value
-  })
-
-  return target
-}
-
-function mergePlyrOptions(...sources: Array<Partial<PlyrOptions> | undefined>): PlyrOptions {
-  return sources.reduce<UnknownRecord>((result, source) => {
-    if (!source) {
-      return result
-    }
-
-    return mergeInto(result, source as UnknownRecord)
-  }, {}) as PlyrOptions
 }
 
 function isAudioPlayersInitConfig(
@@ -80,28 +46,6 @@ function normalizeInitConfig(
 
   return {
     options: config,
-  }
-}
-
-function parseDataOptions(container: HTMLElement): Partial<PlyrOptions> {
-  const rawConfig = container.dataset.plyrConfig
-
-  if (!rawConfig) {
-    return {}
-  }
-
-  try {
-    const parsed = JSON.parse(rawConfig)
-
-    if (!isPlainObject(parsed)) {
-      console.warn('[audio-player] data-plyr-config must be a JSON object:', container)
-      return {}
-    }
-
-    return parsed as Partial<PlyrOptions>
-  } catch {
-    console.warn('[audio-player] Invalid JSON in data-plyr-config:', container)
-    return {}
   }
 }
 
@@ -246,6 +190,70 @@ export const attemptAutoplay = (player: PlyrInstance): void => {
  *   <audio src="audio.mp3" preload="metadata"></audio>
  * </div>
  */
+function setupAutoplay(player: PlyrInstance): void {
+  let started = false
+
+  const doAutoplay = () => {
+    if (started) {
+      return
+    }
+    started = true
+    attemptAutoplay(player)
+  }
+
+  player.on('ready', doAutoplay)
+
+  const media = player.media as HTMLMediaElement | undefined
+  if (media) {
+    media.addEventListener('canplay', doAutoplay, { once: true })
+    media.addEventListener('loadeddata', doAutoplay, { once: true })
+  }
+}
+
+function initSingleAudioPlayer(
+  container: AudioPlayerContainer,
+  normalizedConfig: ReturnType<typeof normalizeInitConfig>,
+): PlyrInstance | null {
+  if (container.dataset.audioPlayerInit === 'true') {
+    return null
+  }
+  container.dataset.audioPlayerInit = 'true'
+
+  const audio = container.querySelector('audio')
+  if (!audio) {
+    return null
+  }
+
+  const mergedOptions = mergePlyrOptions(
+    DEFAULT_OPTIONS,
+    normalizedConfig.options,
+    parseDataOptions(container, 'audio-player'),
+    normalizedConfig.getOptions?.(container),
+  )
+
+  const wantsAutoplay = shouldAutoplay(normalizedConfig, mergedOptions)
+  const finalOptions = wantsAutoplay ? stripAutoplayFromOptions(mergedOptions) : mergedOptions
+
+  if (wantsAutoplay) {
+    audio.muted = true
+    audio.setAttribute('muted', '')
+  }
+
+  const player = new Plyr(audio, finalOptions)
+  container.__audioPlayerInstance = player
+
+  if (wantsAutoplay) {
+    setupAutoplay(player)
+  }
+
+  normalizedConfig.onInit?.({
+    player,
+    container,
+  })
+
+  return player
+}
+
 export const initAudioPlayers = (
   root: Document | Element = document,
   config: Partial<PlyrOptions> | AudioPlayersInitConfig = {},
@@ -255,64 +263,10 @@ export const initAudioPlayers = (
   const players: PlyrInstance[] = []
 
   containers.forEach((container) => {
-    if (container.dataset.audioPlayerInit === 'true') {
-      return
+    const player = initSingleAudioPlayer(container, normalizedConfig)
+    if (player) {
+      players.push(player)
     }
-    container.dataset.audioPlayerInit = 'true'
-
-    const audio = container.querySelector('audio')
-    if (!audio) {
-      return
-    }
-
-    const mergedOptions = mergePlyrOptions(
-      DEFAULT_OPTIONS,
-      normalizedConfig.options,
-      parseDataOptions(container),
-      normalizedConfig.getOptions?.(container),
-    )
-
-    const wantsAutoplay = shouldAutoplay(normalizedConfig, mergedOptions)
-    const finalOptions = wantsAutoplay ? stripAutoplayFromOptions(mergedOptions) : mergedOptions
-
-    // Pre-set muted on native element before Plyr init so Chrome
-    // does not consume and block the autoplay gesture
-    if (wantsAutoplay) {
-      audio.muted = true
-      audio.setAttribute('muted', '')
-    }
-
-    const player = new Plyr(audio, finalOptions)
-
-    players.push(player)
-
-    // Store instance for potential cleanup
-    container.__audioPlayerInstance = player
-
-    if (wantsAutoplay) {
-      let started = false
-
-      const doAutoplay = () => {
-        if (started) {
-          return
-        }
-        started = true
-        attemptAutoplay(player)
-      }
-
-      player.on('ready', doAutoplay)
-
-      const media = player.media as HTMLMediaElement | undefined
-      if (media) {
-        media.addEventListener('canplay', doAutoplay, { once: true })
-        media.addEventListener('loadeddata', doAutoplay, { once: true })
-      }
-    }
-
-    normalizedConfig.onInit?.({
-      player,
-      container,
-    })
   })
 
   return players

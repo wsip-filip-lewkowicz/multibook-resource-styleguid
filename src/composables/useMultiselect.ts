@@ -1,8 +1,81 @@
+import { createDropdownController, createOutsideClickHandler } from './dropdown-utils'
+
+const TAG_GAP = 6
+const COUNTER_MARGIN = 40
+
+function toggleOptionSelection(option: HTMLElement): void {
+  const checkbox = option.querySelector<HTMLInputElement>('input[type="checkbox"]')
+  const isSelected = option.getAttribute('aria-selected') === 'true'
+  option.setAttribute('aria-selected', isSelected ? 'false' : 'true')
+  if (checkbox) checkbox.checked = !isSelected
+}
+
+function countVisibleTags(tempTags: HTMLElement[], availableWidth: number): number {
+  let currentWidth = 0
+  let visibleCount = 0
+
+  for (let i = 0; i < tempTags.length; i++) {
+    const tag = tempTags[i]
+    if (!tag) continue
+    const tagWidth = tag.offsetWidth + (i > 0 ? TAG_GAP : 0)
+    if (currentWidth + tagWidth > availableWidth && i > 0) break
+    currentWidth += tagWidth
+    visibleCount++
+  }
+
+  return visibleCount
+}
+
+function handleArrowNavigation(
+  event: KeyboardEvent,
+  isOpen: boolean,
+  open: () => void,
+  setHighlighted: (index: number) => void,
+  highlightedIndex: number,
+  optionsLength: number,
+  direction: 1 | -1,
+): void {
+  event.preventDefault()
+  if (!isOpen) {
+    open()
+    setHighlighted(direction === 1 ? 0 : optionsLength - 1)
+    return
+  }
+
+  setHighlighted(highlightedIndex + direction)
+}
+
+function handleSelectionKey(
+  event: KeyboardEvent,
+  isOpen: boolean,
+  highlightedIndex: number,
+  options: HTMLElement[],
+  renderTags: () => void,
+  open: () => void,
+  setHighlighted: (index: number) => void,
+): void {
+  if (isOpen && highlightedIndex >= 0) {
+    event.preventDefault()
+    const option = options[highlightedIndex]
+    if (option) {
+      toggleOptionSelection(option)
+      renderTags()
+    }
+    return
+  }
+
+  if (!isOpen) {
+    event.preventDefault()
+    open()
+    setHighlighted(0)
+  }
+}
+
 /**
  * Composable for managing custom multiselect dropdown behavior.
  * Handles opening/closing, multiple option selection, tag rendering, keyboard navigation, and ARIA attributes.
  */
-export function initMultiselect(root: HTMLElement): (() => void) | null {
+function initMultiselect(root: HTMLElement): (() => void) | null {
   const trigger = root.querySelector<HTMLButtonElement>('[data-multiselect-trigger]')
   const dropdown = root.querySelector<HTMLElement>('[data-multiselect-dropdown]')
   const list = root.querySelector<HTMLElement>('[data-multiselect-list]')
@@ -12,11 +85,6 @@ export function initMultiselect(root: HTMLElement): (() => void) | null {
 
   if (!trigger || !dropdown || !list || !valueEl || !tagsContainer || options.length === 0)
     return null
-
-  const setAriaState = (open: boolean) => {
-    trigger.setAttribute('aria-expanded', open ? 'true' : 'false')
-    dropdown.setAttribute('aria-hidden', open ? 'false' : 'true')
-  }
 
   let highlightedIndex = -1
 
@@ -35,36 +103,20 @@ export function initMultiselect(root: HTMLElement): (() => void) | null {
     highlightedIndex = -1
   }
 
-  const close = () => {
-    root.classList.remove('is-open')
-    setAriaState(false)
-    clearHighlight()
-  }
-
-  const closeOtherSelects = () => {
-    document.querySelectorAll<HTMLElement>('[data-multiselect].is-open').forEach((openSelect) => {
-      if (openSelect === root) return
+  const { setAriaState, close, open, toggle } = createDropdownController({
+    root,
+    trigger,
+    dropdown,
+    openSelector: '[data-multiselect].is-open',
+    resetOther: (openSelect) => {
       openSelect.classList.remove('is-open')
       const otherTrigger = openSelect.querySelector<HTMLElement>('[data-multiselect-trigger]')
       const otherDropdown = openSelect.querySelector<HTMLElement>('[data-multiselect-dropdown]')
       otherTrigger?.setAttribute('aria-expanded', 'false')
       otherDropdown?.setAttribute('aria-hidden', 'true')
-    })
-  }
-
-  const open = () => {
-    closeOtherSelects()
-    root.classList.add('is-open')
-    setAriaState(true)
-  }
-
-  const toggle = () => {
-    if (root.classList.contains('is-open')) {
-      close()
-    } else {
-      open()
-    }
-  }
+    },
+    onClose: clearHighlight,
+  })
 
   const updatePlaceholder = () => {
     const hasVisibleTags = tagsContainer.querySelector(
@@ -104,9 +156,6 @@ export function initMultiselect(root: HTMLElement): (() => void) | null {
     return tag
   }
 
-  const TAG_GAP = 6
-  const COUNTER_MARGIN = 40
-
   const renderTags = () => {
     tagsContainer.innerHTML = ''
     const selectedOptions = options.filter((opt) => opt.getAttribute('aria-selected') === 'true')
@@ -127,20 +176,8 @@ export function initMultiselect(root: HTMLElement): (() => void) | null {
       tagsContainer.appendChild(tag)
     })
 
-    const containerWidth = tagsContainer.clientWidth
-    const availableWidth = containerWidth - COUNTER_MARGIN
-
-    let currentWidth = 0
-    let visibleCount = 0
-
-    for (let i = 0; i < tempTags.length; i++) {
-      const tag = tempTags[i]
-      if (!tag) continue
-      const tagWidth = tag.offsetWidth + (i > 0 ? TAG_GAP : 0)
-      if (currentWidth + tagWidth > availableWidth && i > 0) break
-      currentWidth += tagWidth
-      visibleCount++
-    }
+    const availableWidth = tagsContainer.clientWidth - COUNTER_MARGIN
+    const visibleCount = countVisibleTags(tempTags, availableWidth)
 
     if (visibleCount === tempTags.length) {
       updatePlaceholder()
@@ -152,10 +189,9 @@ export function initMultiselect(root: HTMLElement): (() => void) | null {
       if (tag) tag.style.display = 'none'
     }
 
-    const overflowCount = tempTags.length - visibleCount
     const counter = document.createElement('span')
     counter.className = 'c-multiselect-overflow'
-    counter.textContent = `+${overflowCount}`
+    counter.textContent = `+${tempTags.length - visibleCount}`
     tagsContainer.appendChild(counter)
 
     updatePlaceholder()
@@ -168,84 +204,43 @@ export function initMultiselect(root: HTMLElement): (() => void) | null {
   }
 
   const onOptionClick = (event: Event) => {
-    const option = event.currentTarget as HTMLElement
-    const checkbox = option.querySelector<HTMLInputElement>('input[type="checkbox"]')
-    const isSelected = option.getAttribute('aria-selected') === 'true'
-    option.setAttribute('aria-selected', isSelected ? 'false' : 'true')
-    if (checkbox) checkbox.checked = !isSelected
+    toggleOptionSelection(event.currentTarget as HTMLElement)
     renderTags()
   }
 
-  const onDocumentClick = (event: Event) => {
-    const target = event.target as Node | null
-    if (target && !root.contains(target)) close()
-  }
+  const onDocumentClick = createOutsideClickHandler(root, close)
 
   const onKeydown = (event: KeyboardEvent) => {
     const isOpen = root.classList.contains('is-open')
 
     switch (event.key) {
       case 'ArrowDown':
-        event.preventDefault()
-        if (!isOpen) {
-          open()
-          setHighlighted(0)
-        } else {
-          setHighlighted(highlightedIndex + 1)
-        }
+        handleArrowNavigation(event, isOpen, open, setHighlighted, highlightedIndex, options.length, 1)
         break
-
       case 'ArrowUp':
-        event.preventDefault()
-        if (!isOpen) {
-          open()
-          setHighlighted(options.length - 1)
-        } else {
-          setHighlighted(highlightedIndex - 1)
-        }
+        handleArrowNavigation(event, isOpen, open, setHighlighted, highlightedIndex, options.length, -1)
         break
-
       case 'Enter':
       case ' ':
-        if (isOpen && highlightedIndex >= 0) {
-          event.preventDefault()
-          const option = options[highlightedIndex]
-          if (option) {
-            const checkbox = option.querySelector<HTMLInputElement>('input[type="checkbox"]')
-            const isSelected = option.getAttribute('aria-selected') === 'true'
-            option.setAttribute('aria-selected', isSelected ? 'false' : 'true')
-            if (checkbox) checkbox.checked = !isSelected
-            renderTags()
-          }
-        } else if (!isOpen) {
-          event.preventDefault()
-          open()
-          setHighlighted(0)
-        }
+        handleSelectionKey(event, isOpen, highlightedIndex, options, renderTags, open, setHighlighted)
         break
-
       case 'Home':
         if (isOpen) {
           event.preventDefault()
           setHighlighted(0)
         }
         break
-
       case 'End':
         if (isOpen) {
           event.preventDefault()
           setHighlighted(options.length - 1)
         }
         break
-
       case 'Escape':
         close()
         break
-
       case 'Tab':
-        if (isOpen) {
-          close()
-        }
+        if (isOpen) close()
         break
     }
   }
@@ -263,7 +258,6 @@ export function initMultiselect(root: HTMLElement): (() => void) | null {
     renderTags()
   }
 
-  // Initialize ARIA states and checkboxes
   options.forEach((option) => {
     const checkbox = option.querySelector<HTMLInputElement>('input[type="checkbox"]')
     const isSelected = option.getAttribute('aria-selected') === 'true' || checkbox?.checked
@@ -273,7 +267,6 @@ export function initMultiselect(root: HTMLElement): (() => void) | null {
   setAriaState(false)
   renderTags()
 
-  // Add event listeners
   trigger.addEventListener('click', onTriggerClick)
   options.forEach((option, index) => {
     option.addEventListener('click', onOptionClick)
@@ -283,13 +276,11 @@ export function initMultiselect(root: HTMLElement): (() => void) | null {
   document.addEventListener('click', onDocumentClick)
   root.addEventListener('keydown', onKeydown)
 
-  // Watch for container resize to update tag visibility
   const resizeObserver = new ResizeObserver(() => {
     renderTags()
   })
   resizeObserver.observe(tagsContainer)
 
-  // Return cleanup function
   return () => {
     trigger.removeEventListener('click', onTriggerClick)
     options.forEach((option) => option.removeEventListener('click', onOptionClick))

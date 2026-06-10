@@ -12,78 +12,29 @@
  */
 
 import { build } from 'vite'
-import { resolve, dirname, basename } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { resolve, basename } from 'node:path'
 import { writeFileSync, unlinkSync, mkdirSync, existsSync, readdirSync } from 'node:fs'
 import { cssConfig } from './bundle-config.js'
+import {
+  ROOT,
+  createDistCleanup,
+  parseBuildFlags,
+  runBuildScript,
+} from './build-shared.js'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const ROOT = resolve(__dirname, '..')
 const SRC_STYLES = resolve(ROOT, 'src/styles')
 const DIST = resolve(ROOT, 'dist')
+const flags = parseBuildFlags(process.argv)
+const cleanupOldFiles = createDistCleanup(DIST, {
+  globalPattern: /^styles-[A-Za-z0-9]+\.css$/,
+  standaloneFiles: cssConfig.standalone.map((file) => `${basename(file, '.css')}.css`),
+})
 
-// Parse CLI flags
-const args = process.argv.slice(2)
-const buildGlobal = args.length === 0 || args.includes('--global')
-const buildStandalone = args.length === 0 || args.includes('--standalone')
-
-/**
- * Clean up old CSS files before building
- */
-/**
- * Clean up old CSS files before building
- */
-function cleanupOldFiles(cleanGlobal: boolean, cleanStandalone: boolean): void {
-  if (!existsSync(DIST)) {
-    return
-  }
-
-  const files = readdirSync(DIST)
-
-  // Remove old global bundle files (styles-[hash].css)
-  if (cleanGlobal) {
-    const globalPattern = /^styles-[A-Za-z0-9]+\.css$/
-    files.forEach((file) => {
-      if (globalPattern.test(file)) {
-        const filePath = resolve(DIST, file)
-        try {
-          unlinkSync(filePath)
-          console.log(`   🗑️  Removed old file: ${file}`)
-        } catch (err) {
-          console.warn(`   ⚠️  Failed to remove ${file}:`, err)
-        }
-      }
-    })
-  }
-
-  // Remove standalone files
-  if (cleanStandalone) {
-    cssConfig.standalone.forEach((file) => {
-      const outputName = basename(file, '.css') + '.css'
-      const filePath = resolve(DIST, outputName)
-      if (existsSync(filePath)) {
-        try {
-          unlinkSync(filePath)
-          console.log(`   🗑️  Removed old file: ${outputName}`)
-        } catch (err) {
-          console.warn(`   ⚠️  Failed to remove ${outputName}:`, err)
-        }
-      }
-    })
-  }
-}
-
-/**
- * Generate temporary bundle CSS content from global files
- */
 function generateBundleCss(): string {
   const imports = cssConfig.global.map((file) => `@import './${file}';`)
   return imports.join('\n') + '\n'
 }
 
-/**
- * Build global CSS bundle
- */
 async function buildGlobalBundle(): Promise<void> {
   if (cssConfig.global.length === 0) {
     console.log('ℹ No global CSS files configured, skipping global bundle')
@@ -95,10 +46,8 @@ async function buildGlobalBundle(): Promise<void> {
   console.log(`\n📦 Building global CSS bundle`)
   console.log(`   Files: ${cssConfig.global.join(', ')}`)
 
-  // Clean up old global bundle files
   cleanupOldFiles(true, false)
 
-  // Generate temporary bundle file (don't overwrite src/styles/index.css)
   const bundleContent = generateBundleCss()
   const tempBundlePath = resolve(SRC_STYLES, '_bundle.css')
   writeFileSync(tempBundlePath, bundleContent)
@@ -119,20 +68,8 @@ async function buildGlobalBundle(): Promise<void> {
       },
     })
 
-    // Find the actual generated filename
-    if (hasHash && existsSync(DIST)) {
-      const regex = new RegExp('^' + cssConfig.globalOutput.replace('[hash]', '[A-Za-z0-9]+') + '$')
-      const files = readdirSync(DIST).filter((f) => regex.test(f))
-      if (files.length > 0) {
-        console.log(`   ✓ dist/${files[files.length - 1]}`)
-      } else {
-        console.log(`   ✓ dist/${cssConfig.globalOutput}`)
-      }
-    } else {
-      console.log(`   ✓ dist/${cssConfig.globalOutput}`)
-    }
+    logGlobalBundleOutput(hasHash)
   } finally {
-    // Clean up temp file
     try {
       unlinkSync(tempBundlePath)
     } catch {
@@ -141,9 +78,19 @@ async function buildGlobalBundle(): Promise<void> {
   }
 }
 
-/**
- * Build standalone CSS files
- */
+function logGlobalBundleOutput(hasHash: boolean): void {
+  if (hasHash && existsSync(DIST)) {
+    const regex = new RegExp('^' + cssConfig.globalOutput.replace('[hash]', '[A-Za-z0-9]+') + '$')
+    const files = readdirSync(DIST).filter((f) => regex.test(f))
+    if (files.length > 0) {
+      console.log(`   ✓ dist/${files[files.length - 1]}`)
+      return
+    }
+  }
+
+  console.log(`   ✓ dist/${cssConfig.globalOutput}`)
+}
+
 async function buildStandaloneFiles(): Promise<void> {
   if (cssConfig.standalone.length === 0) {
     console.log('ℹ No standalone CSS files configured')
@@ -152,10 +99,8 @@ async function buildStandaloneFiles(): Promise<void> {
 
   console.log(`\n📦 Building standalone CSS files`)
 
-  // Clean up old standalone files
   cleanupOldFiles(false, true)
 
-  // Ensure dist exists
   if (!existsSync(DIST)) {
     mkdirSync(DIST, { recursive: true })
   }
@@ -185,24 +130,10 @@ async function buildStandaloneFiles(): Promise<void> {
   }
 }
 
-/**
- * Main build function
- */
-async function main(): Promise<void> {
-  console.log('🎨 CSS Build')
-
-  if (buildGlobal) {
-    await buildGlobalBundle()
-  }
-
-  if (buildStandalone) {
-    await buildStandaloneFiles()
-  }
-
-  console.log('\n✅ CSS build complete\n')
-}
-
-main().catch((err) => {
+runBuildScript('🎨 CSS Build', 'CSS build complete', flags, {
+  global: buildGlobalBundle,
+  standalone: buildStandaloneFiles,
+}).catch((err) => {
   console.error('❌ CSS build failed:', err)
   process.exit(1)
 })
